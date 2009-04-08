@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.0.1
+ * jQuery LiveTwitter 1.1
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2009/04/07 $
+ * $Date: 2009/04/08 $
  */
 
 /*
