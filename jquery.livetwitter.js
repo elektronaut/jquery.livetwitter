@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.1
+ * jQuery LiveTwitter 1.2
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2009/04/08 $
+ * $Date: 2009/05/20 $
  */
 
 /*
@@ -21,8 +21,9 @@
 	}
 	$.fn.liveTwitter = function(query, options){
 		var settings = jQuery.extend({
-			rate:      15000, // Refresh rate in ms
-			limit:     10     // Limit number of results
+			mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
+			rate:      15000,    // Refresh rate in ms
+			limit:     10        // Limit number of results
 		}, options);
 		window.twitter_callback = function(){return true;};
 		if(this.twitter){
@@ -31,6 +32,7 @@
 		this.twitter = {
 			query:     query,
 			limit:     settings.limit,
+			mode:      settings.mode,
 			interval:  false,
 			container: this,
 			tweetIds:  [],
@@ -57,21 +59,39 @@
 			},
 			refresh:  function(initialize){
 				var encodedQuery = encodeURIComponent(this.query);
-				var url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
 				var twitter = this;
+				var url = '';
+				if(twitter.mode == 'search'){
+					url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
+				} else if(twitter.mode == 'user_timeline') {
+					url = "http://twitter.com/statuses/user_timeline/"+encodedQuery+".json?count=5&callback=?";
+				}
 				$.getJSON(url, function(json) {
-					$(json.results).reverse().each(function(){
+					var results = null;
+					if(twitter.mode == 'search'){
+						results = json.results;
+					} else {
+						results = json;
+					}
+					$(results).reverse().each(function(){
 						var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 						linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 						if($.inArray(this.id, twitter.tweetIds) < 0) {
-							$(twitter.container).prepend(
-								'<div class="tweet tweet-'+this.id+'">' +
-								'<img width="24" height="24" src="'+this.profile_image_url+'" />' +
-								'<p class="text"><span class="username"><a href="http://twitter.com/'+this.from_user+'">'+this.from_user+'</a>:</span> ' +
+							var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
+							if(twitter.mode == 'search') {
+								tweetHTML += 
+									'<img width="24" height="24" src="'+this.profile_image_url+'" />' +
+									'<p class="text"><span class="username"><a href="http://twitter.com/'+this.from_user+'">'+this.from_user+'</a>:</span> ';
+							} else {
+								tweetHTML += 
+									'<p class="text"> ';
+							}
+							tweetHTML += 
 								linkified_text +
 								' <span class="time">'+twitter.relativeTime(this.created_at)+'</span>' +
 								'</p>' +
-								'</div>');
+								'</div>';
+							$(twitter.container).prepend(tweetHTML);
 							if(!initialize) {
 								$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
 							}

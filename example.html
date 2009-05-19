@@ -9,9 +9,13 @@
 	<script src="jquery.livetwitter.js" type="text/javascript"></script>
 </head>
 <body>
-	<div id="twitter"></div>
+	<h2>Search for "bacon"</h2>
+	<div id="twitterSearch"></div>
+	<h2>User timeline: <a href="http://twitter.com/elektronaut">@elektronaut</a></h2>
+	<div id="twitterUserTimeline"></div>
 	<script type="text/javascript">
-		$('#twitter').liveTwitter('bacon', {limit: 5, rate: 5000});
+		$('#twitterSearch').liveTwitter('bacon', {limit: 5, rate: 5000});
+		$('#twitterUserTimeline').liveTwitter('elektronaut', {limit: 5, rate: 5000, mode: 'user_timeline'});
 	</script>
 </body>
 </html>
