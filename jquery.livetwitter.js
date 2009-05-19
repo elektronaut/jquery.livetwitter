@@ -24,7 +24,7 @@
 			rate:      15000, // Refresh rate in ms
 			limit:     10     // Limit number of results
 		}, options);
-		window.twitter_callback = function(){return true;}
+		window.twitter_callback = function(){return true;};
 		if(this.twitter){
 			clearInterval(this.twitter.interval);
 		}
@@ -43,15 +43,15 @@
 				} else if(delta < 120) {
 					r = 'a couple of minutes ago';
 				} else if(delta < (45*60)) {
-					r = (parseInt(delta / 60)).toString() + ' minutes ago';
+					r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
 				} else if(delta < (90*60)) {
 					r = 'an hour ago';
 				} else if(delta < (24*60*60)) {
-					r = '' + (parseInt(delta / 3600)).toString() + ' hours ago';
+					r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
 				} else if(delta < (48*60*60)) {
 					r = 'a day ago';
 				} else {
-					r = (parseInt(delta / 86400)).toString() + ' days ago';
+					r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
 				}
 				return r;
 			},
@@ -62,7 +62,7 @@
 				$.getJSON(url, function(json) {
 					$(json.results).reverse().each(function(){
 						var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
-						var linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''))})
+						linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 						if($.inArray(this.id, twitter.tweetIds) < 0) {
 							$(twitter.container).prepend(
 								'<div class="tweet tweet-'+this.id+'">' +
@@ -71,8 +71,7 @@
 								linkified_text +
 								' <span class="time">'+twitter.relativeTime(this.created_at)+'</span>' +
 								'</p>' +
-								'</div>'
-							);
+								'</div>');
 							if(!initialize) {
 								$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
 							}
@@ -83,10 +82,10 @@
 					$(twitter.container).find('div.tweet:gt('+(twitter.limit-1)+')').remove();
 			     });
 			}
-		}
+		};
 		var twitter = this.twitter;
-		twitter.interval = setInterval(function(){twitter.refresh()}, settings.rate);
+		twitter.interval = setInterval(function(){twitter.refresh();}, settings.rate);
 		twitter.refresh(true);
 		return this;
-	}
+	};
 })(jQuery);
