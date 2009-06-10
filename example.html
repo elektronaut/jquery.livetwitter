@@ -9,13 +9,32 @@
 	<script src="jquery.livetwitter.js" type="text/javascript"></script>
 </head>
 <body>
-	<h2>Search for "bacon"</h2>
+
+	<h2>Search for "<span id="searchTerm">celery</span>"</h2>
+	<p id="searchLinks">Change to: <a href="#">celery</a>, <a href="#">bacon</a> or <a href="#">pasta</a></p>
 	<div id="twitterSearch"></div>
+
 	<h2>User timeline: <a href="http://twitter.com/elektronaut">@elektronaut</a></h2>
 	<div id="twitterUserTimeline"></div>
+
 	<script type="text/javascript">
-		$('#twitterSearch').liveTwitter('bacon', {limit: 25, rate: 5000});
+
+		// Basic usage
+		$('#twitterSearch').liveTwitter('celery', {limit: 5, rate: 5000});
 		$('#twitterUserTimeline').liveTwitter('elektronaut', {limit: 5, rate: 50000, mode: 'user_timeline'});
+
+		// Changing the query
+		$('#searchLinks a').each(function(){
+			var query = $(this).text();
+			$(this).click(function(){
+				// Update the search
+				$('#twitterSearch').liveTwitter(query, {limit: 10});
+				// Update the header
+				$('#searchTerm').text(query);
+				return false;
+			});
+		});
+
 	</script>
 </body>
 </html>
