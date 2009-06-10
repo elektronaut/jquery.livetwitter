@@ -19,7 +19,7 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
  $("#twitterSearch").liveTwitter('celery', {limit: 25});
  $("#twitterSearch").liveTwitter(false, {limit: 25});
 
-You can also stop, start and refresh manually::
+Stopping, starting and refreshing manually::
 
  $("#twitterSearch").each(function(){ this.twitter.stop(); });
  $("#twitterSearch").each(function(){ this.twitter.start(); });
