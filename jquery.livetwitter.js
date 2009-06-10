@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.2
+ * jQuery LiveTwitter 1.2.1
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2009/05/20 $
+ * $Date: 2009/06/10 $
  */
 
 /*
@@ -73,6 +73,9 @@
 					} else {
 						results = json;
 					}
+					$(twitter.container).find('span.time').each(function(){
+						$(this).html(twitter.relativeTime(this.timeStamp));
+					});
 					$(results).reverse().each(function(){
 						var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 						linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
@@ -92,6 +95,10 @@
 								'</p>' +
 								'</div>';
 							$(twitter.container).prepend(tweetHTML);
+							var timeStamp = this.created_at;
+							$(twitter.container).find('span.time:first').each(function(){
+								this.timeStamp = timeStamp;
+							});
 							if(!initialize) {
 								$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
 							}
