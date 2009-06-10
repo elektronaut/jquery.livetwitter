@@ -30,7 +30,9 @@
 				}
 				this.twitter.limit    = settings.limit;
 				this.twitter.mode     = settings.mode;
-				this.twitter.refresh();
+				if(this.twitter.interval){
+					this.twitter.refresh();
+				}
 			} else {
 				settings = jQuery.extend({
 					mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
@@ -118,11 +120,22 @@
 							// Limit number of entries
 							$(twitter.container).find('div.tweet:gt('+(twitter.limit-1)+')').remove();
 					     });
+					},
+					start: function(){
+						var twitter = this;
+						if(!this.interval){
+							this.interval = setInterval(function(){twitter.refresh();}, twitter.settings.rate);
+							this.refresh(true);
+						}
+					},
+					stop: function(){
+						if(this.interval){
+							clearInterval(this.interval);
+							this.interval = false;
+						}
 					}
 				};
-				var twitter = this.twitter;
-				twitter.interval = setInterval(function(){twitter.refresh();}, settings.rate);
-				twitter.refresh(true);
+				this.twitter.start();
 			}
 		});
 		return this;

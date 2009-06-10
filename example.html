@@ -28,7 +28,7 @@
 			var query = $(this).text();
 			$(this).click(function(){
 				// Update the search
-				$('#twitterSearch').liveTwitter(query, {limit: 10});
+				$('#twitterSearch').liveTwitter(query);
 				// Update the header
 				$('#searchTerm').text(query);
 				return false;
