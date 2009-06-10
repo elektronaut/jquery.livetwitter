@@ -3,6 +3,7 @@
 LiveTwitter is a lightweight, live updating Twitter search plugin for jQuery.
 Tested against 1.3.x, but any recent version should do.
 
+
 == Usage
 
  <div id="twitterSearch"></div>
@@ -13,18 +14,39 @@ You can also show tweets from a user's timeline:
 
  $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline'});
 
+Note: You might want to be careful with low refresh rates here to play nice with API rate limits.
+
 Changing the query or options is pretty easy, just call liveTwitter again with the new parameters:
 
  $("#twitterSearch").liveTwitter('salad');
  $("#twitterSearch").liveTwitter('celery', {limit: 25});
  $("#twitterSearch").liveTwitter(false, {limit: 25});
 
+You disable automatic refreshing by passing refresh: false
+
+ $("#twitterSearch").liveTwitter('bacon', {limit: 10, refresh: false});
+
 Stopping, starting and refreshing manually::
 
  $("#twitterSearch").each(function(){ this.twitter.stop(); });
  $("#twitterSearch").each(function(){ this.twitter.start(); });
  $("#twitterSearch").each(function(){ this.twitter.refresh(); });
- 
+
+
+== Changelog 
+
+=== 1.3.1
+
+* Smarter timestamps
+* Automatic refreshing can be disabled
+
+=== 1.3.0
+
+* Query parameters and options are changeable on the fly
+* stop(), start() and refresh()
+* Bugfixes
+
+
 
 == License:
 
