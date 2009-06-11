@@ -59,9 +59,9 @@
 </head>
 <body>
 
-	<h2>Search for "<span id="searchTerm">celery</span>"</h2>
+	<h2>Searching for <em<span id="searchTerm">bacon</span></em>..</h2>
 	<div id="twitterSearch" class="tweets"></div>
-	<p id="searchLinks">Change to: <a href="#">celery</a>, <a href="#">bacon</a> or <a href="#">pasta</a>.</p>
+	<p id="searchLinks">Change to: <a href="#">bacon</a>, <a href="#">pasta</a> or <a href="#">celery</a>.</p>
 
 	<h2>User timeline for <a href="http://twitter.com/elektronaut">@elektronaut</a></h2>
 	<div id="twitterUserTimeline" class="tweets"></div>
@@ -69,8 +69,8 @@
 	<script type="text/javascript">
 
 		// Basic usage
-		$('#twitterSearch').liveTwitter('celery', {limit: 5, rate: 5000});
-		$('#twitterUserTimeline').liveTwitter('elektronaut', {limit: 5, rate: 50000, mode: 'user_timeline'});
+		$('#twitterSearch').liveTwitter('bacon', {limit: 5, rate: 5000});
+		$('#twitterUserTimeline').liveTwitter('elektronaut', {limit: 5, refresh: false, mode: 'user_timeline'});
 
 		// Changing the query
 		$('#searchLinks a').each(function(){
