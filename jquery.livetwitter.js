@@ -84,7 +84,7 @@
 							if(twitter.mode == 'search'){
 								url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
 							} else if(twitter.mode == 'user_timeline') {
-								url = "http://twitter.com/statuses/user_timeline/"+encodedQuery+".json?count=5&callback=?";
+								url = "http://twitter.com/statuses/user_timeline/"+encodedQuery+".json?count="+twitter.limit+"&callback=?";
 							}
 							$.getJSON(url, function(json) {
 								var results = null;
