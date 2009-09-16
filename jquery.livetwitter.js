@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.3.1
+ * jQuery LiveTwitter 1.3.2
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2009/06/10 $
+ * $Date: 2009/09/16 $
  */
 
 /*
@@ -40,6 +40,13 @@
 					limit:     10,       // Limit number of results
 					refresh:   true
 				}, options);
+				if(typeof settings.showAuthor == "undefined"){
+					if(settings.mode == 'search'){
+						settings.showAuthor = true;
+					} else {
+						settings.showAuthor = false;
+					}
+				}
 				window.twitter_callback = function(){return true;};
 				this.twitter = {
 					settings:      settings,
@@ -94,14 +101,24 @@
 									results = json;
 								}
 								$(results).reverse().each(function(){
+									var screen_name = '';
+									var profile_image_url = '';
+									if(twitter.mode == 'search') {
+										screen_name = this.from_user;
+										profile_image_url = this.profile_image_url;
+									} else {
+										screen_name = this.user.screen_name;
+										profile_image_url = this.user.profile_image_url;
+									}
+									var userInfo = this.user;
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									if(Date.parse(this.created_at) > twitter.lastTimeStamp) {
 										var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
-										if(twitter.mode == 'search') {
+										if(twitter.settings.showAuthor) {
 											tweetHTML += 
-												'<img width="24" height="24" src="'+this.profile_image_url+'" />' +
-												'<p class="text"><span class="username"><a href="http://twitter.com/'+this.from_user+'">'+this.from_user+'</a>:</span> ';
+												'<img width="24" height="24" src="'+profile_image_url+'" />' +
+												'<p class="text"><span class="username"><a href="http://twitter.com/'+screen_name+'">'+screen_name+'</a>:</span> ';
 										} else {
 											tweetHTML += 
 												'<p class="text"> ';
