@@ -31,7 +31,7 @@
 
 <h2>Usage</h2>
 
- <pre>&lt;div id="twitterSearch"&gt;&lt;/div&gt;</pre>
+ <pre>&lt;div id=&quot;twitterSearch&quot;&gt;&lt;/div&gt;</pre>
 
  <pre>$("#twitterSearch").liveTwitter('bacon', {limit: 10, rate: 15000});</pre>
 
@@ -39,21 +39,33 @@
 
  <pre>$("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline'});</pre>
 
+<p>Showing profile image and username is toggleable, and disabled by default in user_time mode. Use showAuthor to enable.</p>
+
+ <pre>$("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', showAuthor: true});</pre>
+
+<p>Note: You might want to be careful with low refresh rates here to play nice with API rate limits.</p>
+
 <p>Changing the query or options is pretty easy, just call liveTwitter again with the new parameters:</p>
 
-<pre>$("#twitterSearch").liveTwitter('salad');
+ <pre>$("#twitterSearch").liveTwitter('salad');
 $("#twitterSearch").liveTwitter('celery', {limit: 25});
 $("#twitterSearch").liveTwitter(false, {limit: 25});</pre>
 
 <p>You disable automatic refreshing by passing refresh: false</p>
 
-<pre>$("#twitterSearch").liveTwitter('bacon', {limit: 10, refresh: false});</pre>
+ <pre>$("#twitterSearch").liveTwitter('bacon', {limit: 10, refresh: false});</pre>
 
 <p>Stopping, starting and refreshing manually:</p>
 
-<pre>$("#twitterSearch").each(function(){ this.twitter.stop(); });
+ <pre>$("#twitterSearch").each(function(){ this.twitter.stop(); });
 $("#twitterSearch").each(function(){ this.twitter.start(); });
 $("#twitterSearch").each(function(){ this.twitter.refresh(); });</pre>
+
+<p>Restricting results by geocode is possible:</p>
+
+<pre>$("#twitterSearch").liveTwitter('bacon', {geocode: '59.919151,10.749950,50km'});</pre>
+
+
  
 
 
@@ -75,10 +87,10 @@ $("#twitterSearch").each(function(){ this.twitter.refresh(); });</pre>
 <p>The GitHub page is <a href="http://github.com/elektronaut/jquery.livetwitter">here</a>.</p>
 
 <h2>License</h2>
-<p>Copyright (c) 2009 Inge Jørgensen
-
-The MIT License
-
+<p>Copyright (c) 2009 Inge Jørgensen<br />
+<br />
+The MIT License<br />
+<br />
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
