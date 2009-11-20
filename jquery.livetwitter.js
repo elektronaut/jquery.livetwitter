@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.3.2
+ * jQuery LiveTwitter 1.3.3
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2009/09/16 $
+ * $Date: 2009/11/20$
  */
 
 /*
@@ -89,7 +89,11 @@
 							var encodedQuery = encodeURIComponent(this.query);
 							var url = '';
 							if(twitter.mode == 'search'){
-								url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
+								if(this.settings.geocode){
+									url = "http://search.twitter.com/search.json?q="+encodedQuery+"&geocode="+encodeURIComponent(this.settings.geocode)+"&callback=?";
+								} else {
+									url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
+								}
 							} else if(twitter.mode == 'user_timeline') {
 								url = "http://twitter.com/statuses/user_timeline/"+encodedQuery+".json?count="+twitter.limit+"&callback=?";
 							}

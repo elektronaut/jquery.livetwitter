@@ -36,8 +36,16 @@ Stopping, starting and refreshing manually::
  $("#twitterSearch").each(function(){ this.twitter.start(); });
  $("#twitterSearch").each(function(){ this.twitter.refresh(); });
 
+Restricting results by geocode is possible:
+
+ $("#twitterSearch").liveTwitter('bacon', {geocode: '59.919151,10.749950,50km'});
+
 
 == Changelog 
+
+=== 1.3.3
+
+* Now supports geocoding
 
 === 1.3.2
 
