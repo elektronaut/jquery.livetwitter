@@ -1,5 +1,5 @@
 /*
- * jQuery LiveTwitter 1.3.3
+ * jQuery LiveTwitter 1.4.0
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009 Inge Jørgensen (elektronaut.no)
@@ -19,35 +19,47 @@
 			return this.pushStack(this.get().reverse(), arguments);
 		};
 	}
-	$.fn.liveTwitter = function(query, options){
+	$.fn.liveTwitter = function(query, options, callback){
+		var domNode = this;
 		$(this).each(function(){
 			var settings = {};
-			if(this.twitter){
+
+			// Handle changing of options
+			if(this.twitter) {
 				settings = jQuery.extend(this.twitter.settings, options);
 				this.twitter.settings = settings;
 				if(query) {
 					this.twitter.query = query;
 				}
-				this.twitter.limit    = settings.limit;
-				this.twitter.mode     = settings.mode;
+				this.twitter.limit = settings.limit;
+				this.twitter.mode  = settings.mode;
 				if(this.twitter.interval){
 					this.twitter.refresh();
 				}
+				if(callback){
+					this.twitter.callback = callback;
+				}
+
+			// ..or create a new twitter object
 			} else {
+				// Extend settings with the defaults
 				settings = jQuery.extend({
 					mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
 					rate:      15000,    // Refresh rate in ms
 					limit:     10,       // Limit number of results
 					refresh:   true
 				}, options);
+
+				// Default setting for showAuthor if not provided
 				if(typeof settings.showAuthor == "undefined"){
-					if(settings.mode == 'search'){
-						settings.showAuthor = true;
-					} else {
-						settings.showAuthor = false;
-					}
+					settings.showAuthor = (settings.mode == 'search') ? true : false;
 				}
-				window.twitter_callback = function(){return true;};
+
+				// Set up a dummy function for the Twitter API callback
+				if(!window.twitter_callback){
+					window.twitter_callback = function(){return true;};
+				}
+
 				this.twitter = {
 					settings:      settings,
 					query:         query,
@@ -56,6 +68,9 @@
 					interval:      false,
 					container:     this,
 					lastTimeStamp: 0,
+					callback:      callback,
+
+					// Convert the time stamp to a more human readable format
 					relativeTime: function(timeString){
 						var parsedDate = Date.parse(timeString);
 						var delta = (Date.parse(Date()) - parsedDate) / 1000;
@@ -77,25 +92,42 @@
 						}
 						return r;
 					},
+
+					// Update the timestamps in realtime
 					refreshTime: function() {
 						var twitter = this;
 						$(twitter.container).find('span.time').each(function(){
 							$(this).html(twitter.relativeTime(this.timeStamp));
 						});
 					},
-					refresh:  function(initialize){
+
+					// Handle reloading
+					refresh: function(initialize){
 						var twitter = this;
 						if(this.settings.refresh || initialize) {
-							var encodedQuery = encodeURIComponent(this.query);
 							var url = '';
+							var params = {};
 							if(twitter.mode == 'search'){
+								params.q = this.query;
+
 								if(this.settings.geocode){
-									url = "http://search.twitter.com/search.json?q="+encodedQuery+"&geocode="+encodeURIComponent(this.settings.geocode)+"&callback=?";
-								} else {
-									url = "http://search.twitter.com/search.json?q="+encodedQuery+"&callback=?";
+									params.geocode = this.settings.geocode;
 								}
+								if(this.settings.lang){
+									params.lang = this.settings.lang;
+								}
+								
+								// Convert params to string
+								var paramsString = [];
+								for(var param in params){
+									if(params.hasOwnProperty(param)){
+										paramsString[paramsString.length] = param + '=' + encodeURIComponent(params[param]);
+									}
+								}
+								paramsString = paramsString.join("&");
+								url = "http://search.twitter.com/search.json?"+paramsString+"&callback=?";
 							} else if(twitter.mode == 'user_timeline') {
-								url = "http://twitter.com/statuses/user_timeline/"+encodedQuery+".json?count="+twitter.limit+"&callback=?";
+								url = "http://twitter.com/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
 							}
 							$.getJSON(url, function(json) {
 								var results = null;
@@ -104,6 +136,7 @@
 								} else {
 									results = json;
 								}
+								var newTweets = 0;
 								$(results).reverse().each(function(){
 									var screen_name = '';
 									var profile_image_url = '';
@@ -118,6 +151,7 @@
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									if(Date.parse(this.created_at) > twitter.lastTimeStamp) {
+										newTweets += 1;
 										var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
 										if(twitter.settings.showAuthor) {
 											tweetHTML += 
@@ -143,8 +177,16 @@
 										twitter.lastTimeStamp = Date.parse(this.created_at);
 									}
 								});
-								// Limit number of entries
-								$(twitter.container).find('div.tweet:gt('+(twitter.limit-1)+')').remove();
+								if(newTweets > 0) {
+									// Limit number of entries
+									$(twitter.container).find('div.tweet:gt('+(twitter.limit-1)+')').remove();
+									// Run callback
+									if(twitter.callback){
+										twitter.callback(domNode, newTweets);
+									}
+									// Trigger event
+									$(domNode).trigger('tweets');
+								}
 							});
 						}	
 					},

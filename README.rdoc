@@ -36,12 +36,38 @@ Stopping, starting and refreshing manually::
  $("#twitterSearch").each(function(){ this.twitter.start(); });
  $("#twitterSearch").each(function(){ this.twitter.refresh(); });
 
+
+== Search options
+
 Restricting results by geocode is possible:
 
  $("#twitterSearch").liveTwitter('bacon', {geocode: '59.919151,10.749950,50km'});
 
+..or by language:
+
+ $("#twitterSearch").liveTwitter('crossaint', {lang: 'fr'});
+
+== Callbacks and events
+
+If you want to apply behavior when new tweets are loaded, you can pass a callback function:
+
+ $('#twitterSearch').liveTwitter('bacon', {}, function(container, newCount){
+   alert(newCount + ' new tweets loaded!');
+ });
+
+..or if events are more your style:
+
+ $('#twitterSearch').liveTwitter('bacon').bind('tweets', function(){
+   alert('New tweets!');
+ });
+
 
 == Changelog 
+
+=== 1.4.0
+
+* Callback and event trigger
+* Support for language selection
 
 === 1.3.3
 
