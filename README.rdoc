@@ -64,6 +64,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 == Changelog 
 
+=== 1.4.1
+
+* Fixed broken parsing of timestamps in IE in user_timeline mode (thanks to Matt Adams!)
+
 === 1.4.0
 
 * Callback and event trigger
