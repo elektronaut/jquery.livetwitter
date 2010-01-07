@@ -166,18 +166,18 @@
 										}
 										tweetHTML += 
 											linkified_text +
-											' <span class="time">'+twitter.relativeTime(this.created_at)+'</span>' +
+											' <span class="time">'+twitter.relativeTime(created_at_date)+'</span>' +
 											'</p>' +
 											'</div>';
 										$(twitter.container).prepend(tweetHTML);
-										var timeStamp = this.created_at;
+										var timeStamp = created_at_date;
 										$(twitter.container).find('span.time:first').each(function(){
 											this.timeStamp = timeStamp;
 										});
 										if(!initialize) {
 											$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
 										}
-										twitter.lastTimeStamp = Date.parse(this.created_at);
+										twitter.lastTimeStamp = Date.parse(created_at_date);
 									}
 								});
 								if(newTweets > 0) {
