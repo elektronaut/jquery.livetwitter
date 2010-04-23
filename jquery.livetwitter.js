@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.4.1
+ * jQuery LiveTwitter 1.4.2
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/01/07$
+ * $Date: 2010/04/23$
  */
 
 /*
@@ -116,6 +116,7 @@
 								if(this.settings.lang){
 									params.lang = this.settings.lang;
 								}
+								params.rpp = this.settings.limit;
 								
 								// Convert params to string
 								var paramsString = [];
