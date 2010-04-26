@@ -64,6 +64,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 == Changelog 
 
+=== 1.4.3
+
+* Hashtags are now automatically linked. Fixed issue with username linking.
+
 === 1.4.2
 
 * Fixed issue with higher limits than Twitter returns by default (thanks to Paul from Zerofee!)
