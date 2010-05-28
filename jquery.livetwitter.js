@@ -117,6 +117,7 @@
 									params.lang = this.settings.lang;
 								}
 								params.rpp = this.settings.limit;
+								params.rpp = 100; // language filtering
 								
 								// Convert params to string
 								var paramsString = [];
@@ -155,31 +156,36 @@
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://search.twitter.com/search?q='+u.replace(/^#/,'%23'));});
-									if(Date.parse(created_at_date) > twitter.lastTimeStamp) {
-										newTweets += 1;
-										var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
-										if(twitter.settings.showAuthor) {
+									// language checking
+									var language = this.iso_language_code;
+									var languages = ['nn', 'no', 'en', 'sv', 'da', 'nb']; // make this an option
+									if($.inArray(language, languages) > -1) {
+										if(Date.parse(created_at_date) > twitter.lastTimeStamp) {
+											newTweets += 1;
+											var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
+											if(twitter.settings.showAuthor) {
+												tweetHTML += 
+													'<img width="24" height="24" src="'+profile_image_url+'" />' +
+													'<p class="text"><span class="username"><a href="http://twitter.com/'+screen_name+'">'+screen_name+'</a>:</span> ';
+											} else {
+												tweetHTML += 
+													'<p class="text"> ';
+											}
 											tweetHTML += 
-												'<img width="24" height="24" src="'+profile_image_url+'" />' +
-												'<p class="text"><span class="username"><a href="http://twitter.com/'+screen_name+'">'+screen_name+'</a>:</span> ';
-										} else {
-											tweetHTML += 
-												'<p class="text"> ';
+												linkified_text +
+												' <span class="time">'+twitter.relativeTime(created_at_date)+'</span>' +
+												'</p>' +
+												'</div>';
+											$(twitter.container).prepend(tweetHTML);
+											var timeStamp = created_at_date;
+											$(twitter.container).find('span.time:first').each(function(){
+												this.timeStamp = timeStamp;
+											});
+											if(!initialize) {
+												$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
+											}
+											twitter.lastTimeStamp = Date.parse(created_at_date);
 										}
-										tweetHTML += 
-											linkified_text +
-											' <span class="time">'+twitter.relativeTime(created_at_date)+'</span>' +
-											'</p>' +
-											'</div>';
-										$(twitter.container).prepend(tweetHTML);
-										var timeStamp = created_at_date;
-										$(twitter.container).find('span.time:first').each(function(){
-											this.timeStamp = timeStamp;
-										});
-										if(!initialize) {
-											$(twitter.container).find('.tweet-'+this.id).hide().fadeIn();
-										}
-										twitter.lastTimeStamp = Date.parse(created_at_date);
 									}
 								});
 								if(newTweets > 0) {
