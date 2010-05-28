@@ -116,8 +116,11 @@
 								if(this.settings.lang){
 									params.lang = this.settings.lang;
 								}
-								params.rpp = this.settings.limit;
-								params.rpp = 100; // language filtering
+								if(this.settings.rpp){
+									params.rpp = this.settings.rpp;
+								} else {
+									params.rpp = this.settings.limit;
+								}
 								
 								// Convert params to string
 								var paramsString = [];
@@ -156,10 +159,9 @@
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://search.twitter.com/search?q='+u.replace(/^#/,'%23'));});
-									// language checking
 									var language = this.iso_language_code;
-									var languages = ['nn', 'no', 'en', 'sv', 'da', 'nb']; // make this an option
-									if($.inArray(language, languages) > -1) {
+
+									if(!twitter.settings.languages || $.inArray(language, twitter.settings.languages) > -1) {
 										if(Date.parse(created_at_date) > twitter.lastTimeStamp) {
 											newTweets += 1;
 											var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
