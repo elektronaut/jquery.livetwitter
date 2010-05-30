@@ -1,5 +1,5 @@
 /*
- * jQuery LiveTwitter 1.4.3
+ * jQuery LiveTwitter 1.4.4
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
