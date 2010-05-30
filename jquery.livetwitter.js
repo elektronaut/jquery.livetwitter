@@ -1,5 +1,5 @@
 /*
- * jQuery LiveTwitter 1.4.4
+ * jQuery LiveTwitter 1.5.0
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
@@ -52,7 +52,7 @@
 
 				// Default setting for showAuthor if not provided
 				if(typeof settings.showAuthor == "undefined"){
-					settings.showAuthor = (settings.mode == 'search') ? true : false;
+					settings.showAuthor = (settings.mode == 'user_timeline') ? false : true;
 				}
 
 				// Set up a dummy function for the Twitter API callback
@@ -132,7 +132,11 @@
 								paramsString = paramsString.join("&");
 								url = "http://search.twitter.com/search.json?"+paramsString+"&callback=?";
 							} else if(twitter.mode == 'user_timeline') {
-								url = "http://twitter.com/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
+								url = "http://api.twitter.com/1/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
+							} else if(twitter.mode == 'list') {
+								var username = encodeURIComponent(this.query.user);
+								var listname = encodeURIComponent(this.query.list);
+								url = "http://api.twitter.com/1/"+username+"/lists/"+listname+"/statuses.json?per_page="+twitter.limit+"&callback=?";
 							}
 							$.getJSON(url, function(json) {
 								var results = null;

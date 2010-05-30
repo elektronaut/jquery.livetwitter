@@ -13,6 +13,10 @@ You can also show tweets from a user's timeline:
 
  $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline'});
 
+..or a list:
+
+ $("#twitterSearch").liveTwitter({user: 'jquery', list: 'team'}, {limit: 10, rate: 300000, mode: 'list'});
+
 Showing profile image and username is toggleable, and disabled by default in user_time mode. Use showAuthor to enable.
 
  $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', showAuthor: true});
@@ -72,6 +76,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 
 == Changelog 
+
+=== 1.5.0
+
+* Following lists is now supported.
 
 === 1.4.4
 
