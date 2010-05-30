@@ -1,7 +1,6 @@
 = jQuery LiveTwitter
 
 LiveTwitter is a lightweight, live updating Twitter search plugin for jQuery.
-Tested against 1.3.x, but any recent version should do.
 
 
 == Usage
@@ -47,6 +46,16 @@ Restricting results by geocode is possible:
 
  $("#twitterSearch").liveTwitter('crossaint', {lang: 'fr'});
 
+
+== Filtering tweets
+
+You can filter tweets by providing a function: 
+
+ $('#twitterSearch').liveTwitter('bacon', {limit: 5, rate: 5000, rpp: 100, filter: function(tweet){
+   return ($.inArray(tweet.iso_language_code, ['no', 'sv']) > -1); // Show only norwegian and swedish tweets
+ }});
+
+
 == Callbacks and events
 
 If you want to apply behavior when new tweets are loaded, you can pass a callback function:
@@ -63,6 +72,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 
 == Changelog 
+
+=== 1.4.4
+
+* Tweet filtering. Thanks to Alexander Støver.
 
 === 1.4.3
 

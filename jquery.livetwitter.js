@@ -5,7 +5,7 @@
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/04/26$
+ * $Date: 2010/05/30$
  */
 
 /*
@@ -159,9 +159,8 @@
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://search.twitter.com/search?q='+u.replace(/^#/,'%23'));});
-									var language = this.iso_language_code;
-
-									if(!twitter.settings.languages || $.inArray(language, twitter.settings.languages) > -1) {
+									
+									if(!twitter.settings.filter || twitter.settings.filter(this)) {
 										if(Date.parse(created_at_date) > twitter.lastTimeStamp) {
 											newTweets += 1;
 											var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
