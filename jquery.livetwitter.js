@@ -1,5 +1,5 @@
 /*
- * jQuery LiveTwitter 1.5.1
+ * jQuery LiveTwitter 1.5.2
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
@@ -97,7 +97,7 @@
 					refreshTime: function() {
 						var twitter = this;
 						$(twitter.container).find('span.time').each(function(){
-							$(this).html(twitter.relativeTime(this.timeStamp));
+							$(this).find('a').html(twitter.relativeTime(this.timeStamp));
 						});
 					},
 
@@ -159,6 +159,7 @@
 										// Fix for IE
 										created_at_date = this.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4");
 									}
+									var tweet_url = 'http://twitter.com/'+screen_name+'/statuses/'+this.id;
 									var userInfo = this.user;
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
 									linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
@@ -178,7 +179,7 @@
 											}
 											tweetHTML += 
 												linkified_text +
-												' <span class="time">'+twitter.relativeTime(created_at_date)+'</span>' +
+												' <span class="time"><a href="'+tweet_url+'">'+twitter.relativeTime(created_at_date)+'</a></span>' +
 												'</p>' +
 												'</div>';
 											$(twitter.container).prepend(tweetHTML);

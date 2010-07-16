@@ -43,12 +43,15 @@
 		.tweet .text {
 			margin: 0;
 		}
-		.tweet .time {
+		.tweet .time a {
 			font-size: 80%;
 			color: #888;
 			white-space: nowrap;
+			text-decoration: none;
 		}
-
+		.tweet .time a:hover {
+			text-decoration: underline;
+		}
 		#twitterSearch .tweet {
 			min-height: 24px;
 		}
@@ -76,8 +79,6 @@
 		$('#searchLinks a').each(function(){
 			var query = $(this).text();
 			$(this).click(function(){
-				// Clear the tweets
-				$('#twitterSearch').each(function(){this.twitter.clear()});
 				// Update the search
 				$('#twitterSearch').liveTwitter(query);
 				// Update the header
