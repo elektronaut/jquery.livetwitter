@@ -76,6 +76,8 @@
 		$('#searchLinks a').each(function(){
 			var query = $(this).text();
 			$(this).click(function(){
+				// Clear the tweets
+				$('#twitterSearch').each(function(){this.twitter.clear()});
 				// Update the search
 				$('#twitterSearch').liveTwitter(query);
 				// Update the header

@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.5.0
+ * jQuery LiveTwitter 1.5.1
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/05/30$
+ * $Date: 2010/07/16$
  */
 
 /*
@@ -218,6 +218,10 @@
 							clearInterval(this.interval);
 							this.interval = false;
 						}
+					},
+					clear: function(){
+						$(this.container).find('div.tweet').remove();
+						this.lastTimeStamp = null;
 					}
 				};
 				var twitter = this.twitter;

@@ -33,11 +33,15 @@ You disable automatic refreshing by passing refresh: false
 
  $("#twitterSearch").liveTwitter('bacon', {limit: 10, refresh: false});
 
-Stopping, starting and refreshing manually::
+Stopping, starting and refreshing manually:
 
  $("#twitterSearch").each(function(){ this.twitter.stop(); });
  $("#twitterSearch").each(function(){ this.twitter.start(); });
  $("#twitterSearch").each(function(){ this.twitter.refresh(); });
+
+If you want to clear the tweets on changing query, you can do this:
+
+ $("#twitterSearch").each(function(){ this.twitter.clear(); }).liveTwitter('my new query');
 
 
 == Search options
@@ -76,6 +80,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 
 == Changelog 
+
+=== 1.5.1
+
+* You can now clear the tweets (thanks to Ryan!).
 
 === 1.5.0
 
