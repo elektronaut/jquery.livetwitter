@@ -81,6 +81,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 == Changelog 
 
+=== 1.5.3
+
+* Support for empty queries
+
 === 1.5.2
 
 * Timestamp now links to the tweet.
