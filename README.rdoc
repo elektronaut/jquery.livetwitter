@@ -43,6 +43,9 @@ If you want to clear the tweets on changing query, you can do this:
 
  $("#twitterSearch").each(function(){ this.twitter.clear(); }).liveTwitter('my new query');
 
+Using status.net (identi.ca) service:
+
+ $('#twitterSearch').liveTwitter('test', {service:'identi.ca'});
 
 == Search options
 
