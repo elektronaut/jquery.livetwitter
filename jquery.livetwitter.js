@@ -48,7 +48,7 @@
 					rate:      15000,    // Refresh rate in ms
 					limit:     10,       // Limit number of results
 					refresh:   true,
-					service:   'twitter'
+					service:   ''
 				}, options);
 
 				// Default setting for showAuthor if not provided
@@ -132,15 +132,15 @@
 									}
 								}
 								paramsString = paramsString.join("&");
-								if( settings.service == 'identi.ca' ) {
-									url = "http://identi.ca/api/search.json?";
+								if( settings.service.length > 0 ) {
+									url = "http://"+settings.service+"/api/search.json?";
 								} else {
 									url = "http://search.twitter.com/search.json?";
 								}
 								url += paramsString+"&callback=?";
 							} else if(twitter.mode == 'user_timeline') {
-								if( settings.service == 'identi.ca' ) {
-									url = "http://identi.ca/api/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
+								if( settings.service.length > 0 ) {
+									url = "http://"+settings.service+"/api/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
 								} else {
 									url = "http://api.twitter.com/1/statuses/user_timeline/"+encodeURIComponent(this.query)+".json?count="+twitter.limit+"&callback=?";
 								}
@@ -170,20 +170,20 @@
 										// Fix for IE
 										created_at_date = this.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4");
 									}
-									if( settings.service == 'identi.ca' ) {
-										var tweet_url = 'http://identi.ca/notice/'+this.id;
+									if( settings.service.length > 0 ) {
+										var tweet_url = 'http://'+settings.service+'/notice/'+this.id;
 									} else {
 										var tweet_url = 'http://twitter.com/'+screen_name+'/statuses/'+this.id;
 									}
 									var userInfo = this.user;
 									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) { return m.link(m); });
-									if( settings.service == 'identi.ca' ) {
-										linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://identi.ca/'+u.replace(/^@/,''));});
+									if( settings.service.length > 0 ) {
+										linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://'+settings.service + '/' + u.replace(/^@/,''));});
 									} else {
 										linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function(u){return u.link('http://twitter.com/'+u.replace(/^@/,''));});
 									}
-									if( settings.service == 'identi.ca' ) {
-										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://http://identi.ca/search/notice?q='+u.replace(/^#/,'%23'));});
+									if( settings.service.length > 0 ) {
+										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://http://'+settings.service+'/search/notice?q='+u.replace(/^#/,'%23'));});
 									} else {
 										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function(u){return u.link('http://search.twitter.com/search?q='+u.replace(/^#/,'%23'));});
 									}
@@ -194,8 +194,8 @@
 											var tweetHTML = '<div class="tweet tweet-'+this.id+'">';
 											if(twitter.settings.showAuthor) {
 												var profile_url = '';
-												if( settings.service == 'identi.ca' ) {
-													profile_url = 'http://identi.ca/' + screen_name;
+												if( settings.service.length > 0 ) {
+													profile_url = 'http://'+settings.service + '/' + screen_name;
 												} else {
 													profile_url = 'http://twitter.com/' + screen_name;
 												}
