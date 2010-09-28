@@ -5,7 +5,7 @@
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/09/01$
+ * $Date: 2010/10/29$
  */
 
 /*
