@@ -64,6 +64,13 @@ You can filter tweets by providing a function:
  }});
 
 
+== HTML options
+
+You can disable linking the timestamp to the tweet:
+
+ $("#twitterSearch").liveTwitter('bacon', {timeLink: false});
+
+
 == Callbacks and events
 
 If you want to apply behavior when new tweets are loaded, you can pass a callback function:
@@ -80,6 +87,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 
 == Changelog 
+
+=== 1.5.4
+
+* Timestamp links are optional (thanks, Tony!)
 
 === 1.5.3
 

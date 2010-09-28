@@ -1,5 +1,5 @@
 /*
- * jQuery LiveTwitter 1.5.3
+ * jQuery LiveTwitter 1.5.4
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
@@ -47,7 +47,8 @@
 					mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
 					rate:      15000,    // Refresh rate in ms
 					limit:     10,       // Limit number of results
-					refresh:   true
+					refresh:   true,
+					timeLinks: true
 				}, options);
 
 				// Default setting for showAuthor if not provided
@@ -97,7 +98,8 @@
 					refreshTime: function() {
 						var twitter = this;
 						$(twitter.container).find('span.time').each(function(){
-							$(this).find('a').html(twitter.relativeTime(this.timeStamp));
+							var time_element = this.settings.timeLinks ? $(this).find('a') : $(this);
+							time_element.html(twitter.relativeTime(this.timeStamp));
 						});
 					},
 
@@ -178,9 +180,13 @@
 												tweetHTML += 
 													'<p class="text"> ';
 											}
+
+											var timeText = twitter.relativeTime(created_at_date);
+											var timeHTML = twitter.settings.timeLinks ? '<a href="'+tweet_url+'">'+timeText+'</a>' : timeText;
+
 											tweetHTML += 
 												linkified_text +
-												' <span class="time"><a href="'+tweet_url+'">'+twitter.relativeTime(created_at_date)+'</a></span>' +
+												' <span class="time">' + timeHTML + '</span>' +
 												'</p>' +
 												'</div>';
 											$(twitter.container).prepend(tweetHTML);
