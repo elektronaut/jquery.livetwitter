@@ -98,7 +98,7 @@
 					refreshTime: function() {
 						var twitter = this;
 						$(twitter.container).find('span.time').each(function(){
-							var time_element = this.settings.timeLinks ? $(this).find('a') : $(this);
+							var time_element = twitter.settings.timeLinks ? $(this).find('a') : $(this);
 							time_element.html(twitter.relativeTime(this.timeStamp));
 						});
 					},
