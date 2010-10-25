@@ -93,6 +93,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 == Changelog 
 
+=== 1.6.0
+
+* Now also supports status.net/identi.ca thanks to Roman Weinberger
+
 === 1.5.4
 
 * Timestamp links are optional (thanks, Tony!)
