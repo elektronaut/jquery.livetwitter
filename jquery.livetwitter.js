@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.6.0
+ * jQuery LiveTwitter 1.6.1
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/10/25$
+ * $Date: 2010/11/25$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false */
@@ -51,6 +51,7 @@
 					mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
 					rate:      15000,    // Refresh rate in ms
 					limit:     10,       // Limit number of results
+					imageSize: 24,       // Size of image in pixels
 					refresh:   true,
 					timeLinks: true,
 					service:   ''
@@ -220,7 +221,7 @@
 													profile_url = 'http://twitter.com/' + screen_name;
 												}
 												tweetHTML += 
-													'<img width="24" height="24" src="' + profile_image_url + '" />' +
+													'<img width="' + settings.imageSize + '" height="' + settings.imageSize + '" src="' + profile_image_url + '" />' +
 													'<p class="text"><span class="username"><a href="' + profile_url + '">' + screen_name + '</a>:</span> ';
 											} else {
 												tweetHTML += 

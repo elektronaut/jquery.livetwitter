@@ -75,6 +75,9 @@ You can disable linking the timestamp to the tweet:
 
  $("#twitterSearch").liveTwitter('bacon', {timeLink: false});
 
+Or use a custom image size:
+
+ $("#twitterSearch").liveTwitter('bacon', {imageSize: 48});
 
 == Callbacks and events
 
@@ -92,6 +95,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 
 == Changelog 
+
+=== 1.6.1
+
+* Image size is now configurable
 
 === 1.6.0
 
