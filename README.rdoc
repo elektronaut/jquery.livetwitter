@@ -96,6 +96,10 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
 
 == Changelog 
 
+=== 1.6.2
+
+* Marcel van der Boom added support for home_timeline
+
 === 1.6.1
 
 * Image size is now configurable
