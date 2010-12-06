@@ -48,7 +48,7 @@
 			} else {
 				// Extend settings with the defaults
 				settings = $.extend({
-					mode:      'search', // Mode, valid options are: 'search', 'user_timeline'
+					mode:      'search', // Mode, valid options are: 'search', 'user_timeline', 'list', 'home_timeline'
 					rate:      15000,    // Refresh rate in ms
 					limit:     10,       // Limit number of results
 					imageSize: 24,       // Size of image in pixels
@@ -147,11 +147,11 @@
 									url = "http://search.twitter.com/search.json?";
 								}
 								url += paramsString + "&callback=?";
-							} else if (twitter.mode === 'user_timeline') {
+							} else if (twitter.mode === 'user_timeline' || twitter.mode === 'home_timeline' ) {
 								if (settings.service.length > 0) {
-									url = "http://" + settings.service + "/api/statuses/user_timeline/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
+									url = "http://" + settings.service + "/api/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
 								} else {
-									url = "http://api.twitter.com/1/statuses/user_timeline/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
+									url = "http://api.twitter.com/1/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
 								}
 							} else if (twitter.mode === 'list') {
 								var username = encodeURIComponent(this.query.user);
