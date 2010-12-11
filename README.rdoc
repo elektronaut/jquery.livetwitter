@@ -1,99 +1,99 @@
 = jQuery LiveTwitter
 
-LiveTwitter is a lightweight, live updating Twitter search plugin for jQuery.
+LiveTwitter is a lightweight, live updating Twitter plugin for jQuery. 
+You can use it to show a stream of tweets based on search queries, or tweets
+from a specific user or list. It also supports StatusNet/identi.ca.
 
 
-== Usage
+== Basic usage
 
- <div id="twitterSearch"></div>
+You'll need a container for the stream of tweets:
 
- $("#twitterSearch").liveTwitter('bacon', {limit: 10, rate: 15000});
+ <div id="tweets"></div>
+
+Populating it is as simple as:
+
+ $("#tweets").liveTwitter('bacon');
 
 You can also show tweets from a user's timeline:
 
- $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline'});
+ $("#tweets").liveTwitter('elektronaut', {mode: 'user_timeline'});
 
 ..or a list:
 
- $("#twitterSearch").liveTwitter({user: 'jquery', list: 'team'}, {limit: 10, rate: 300000, mode: 'list'});
-
-You can include native retweets by passing retweets: true:
-
- $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', retweets: true});
-
-Showing profile image and username is toggleable, and disabled by default in user_time mode. Use showAuthor to enable.
-
- $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', showAuthor: true});
-
-Note: You might want to be careful with low refresh rates here to play nice with API rate limits.
+ $("#tweets").liveTwitter({user: 'jquery', list: 'team'}, {mode: 'list'});
 
 Changing the query or options is pretty easy, just call liveTwitter again with the new parameters:
 
- $("#twitterSearch").liveTwitter('salad');
- $("#twitterSearch").liveTwitter('celery', {limit: 25});
- $("#twitterSearch").liveTwitter(false, {limit: 25});
+ $("#tweets").liveTwitter('salad');
+ $("#tweets").liveTwitter('celery', {limit: 25});
+ $("#tweets").liveTwitter(false, {limit: 25});
 
-You disable automatic refreshing by passing refresh: false
+== Options
 
- $("#twitterSearch").liveTwitter('bacon', {limit: 10, refresh: false});
+=== Global options
+
+*mode:*       Valid options are 'search', 'user_timeline', 'list', 'home_timeline'. 'search' is the default.
+*rate:*       Refresh rate, in milliseconds. The default is 15000.
+*limit:*      Maximum number of tweets to show at once. The default is 10.
+*imageSize:*  Dimensions of profile image. The default is 24 pixels.
+*refresh:*    Pass refresh: false to disable automatic refreshing.
+*rpp:*        Results per page to request from the API. This defaults to the limit, increase it if you're filtering tweets.
+*showAuthor:* Show username and profile picture. Defaults to false for user_timeline and true for all other modes.
+*filter:*     Pass a function to filter tweets before displaying them. 
+*service:*    Use another service with compatible API, for example 'identi.ca' or 'youraccount.status.net'.
+*timeLink:*   Pass timeLink: false to disable the timestamp on tweets.
+
+=== Options for search
+
+*geocode:*   Search tweets near a specific location. Example: '59.919151,10.749950,50km'
+*lang:*      Only show tweets in this language. Example: lang: 'fr'
+
+=== Options for user_timeline
+
+*retweets:*  Includes native retweets. Disabled by default.
+
+== A note on rate limiting
+
+The Twitter API enforces a limit on how many requests you can perform in a 
+certain timeframe. The search API has a rather liberal rate limit, but the 
+other modes are noticeably harsher. I recommend setting a higher limit 
+(like 300000) if you're displaying a user timeline. 
+
+If you're constantly refreshing the page while developing and suddenly start
+seeing tweets dropping out, this is probably the reason. 
+
+== Advanced usage
 
 Stopping, starting and refreshing manually:
 
- $("#twitterSearch").each(function(){ this.twitter.stop(); });
- $("#twitterSearch").each(function(){ this.twitter.start(); });
- $("#twitterSearch").each(function(){ this.twitter.refresh(); });
+ $("#tweets").each(function(){ this.twitter.stop(); });
+ $("#tweets").each(function(){ this.twitter.start(); });
+ $("#tweets").each(function(){ this.twitter.refresh(); });
 
 If you want to clear the tweets on changing query, you can do this:
 
- $("#twitterSearch").each(function(){ this.twitter.clear(); }).liveTwitter('my new query');
+ $("#tweets").each(function(){ this.twitter.clear(); }).liveTwitter('my new query');
 
-Using status.net (identi.ca) service:
-
- $('#twitterSearch').liveTwitter('test', {service:'identi.ca'});
- $('#twitterSearch').liveTwitter('test', {service:'youracccount.status.net'});
-
-
-== Search options
-
-Restricting results by geocode is possible:
-
- $("#twitterSearch").liveTwitter('bacon', {geocode: '59.919151,10.749950,50km'});
-
-..or by language:
-
- $("#twitterSearch").liveTwitter('crossaint', {lang: 'fr'});
-
-
-== Filtering tweets
+=== Filtering tweets
 
 You can filter tweets by providing a function: 
 
- $('#twitterSearch').liveTwitter('bacon', {limit: 5, rate: 5000, rpp: 100, filter: function(tweet){
+ $('#tweets').liveTwitter('bacon', {limit: 10, rpp: 100, filter: function(tweet){
    return ($.inArray(tweet.iso_language_code, ['no', 'sv']) > -1); // Show only norwegian and swedish tweets
  }});
 
-
-== HTML options
-
-You can disable linking the timestamp to the tweet:
-
- $("#twitterSearch").liveTwitter('bacon', {timeLink: false});
-
-Or use a custom image size:
-
- $("#twitterSearch").liveTwitter('bacon', {imageSize: 48});
-
-== Callbacks and events
+=== Callbacks and events
 
 If you want to apply behavior when new tweets are loaded, you can pass a callback function:
 
- $('#twitterSearch').liveTwitter('bacon', {}, function(container, newCount){
+ $('#tweets').liveTwitter('bacon', {}, function(container, newCount){
    alert(newCount + ' new tweets loaded!');
  });
 
 ..or if events are more your style:
 
- $('#twitterSearch').liveTwitter('bacon').bind('tweets', function(){
+ $('#tweets').liveTwitter('bacon').bind('tweets', function(){
    alert('New tweets!');
  });
 
