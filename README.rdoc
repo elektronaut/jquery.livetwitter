@@ -33,25 +33,25 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
 
 === Global options
 
-*mode:*       Valid options are 'search', 'user_timeline', 'list', 'home_timeline'. 'search' is the default.
-*rate:*       Refresh rate, in milliseconds. The default is 15000.
-*limit:*      Maximum number of tweets to show at once. The default is 10.
-*imageSize:*  Dimensions of profile image. The default is 24 pixels.
-*refresh:*    Pass refresh: false to disable automatic refreshing.
-*rpp:*        Results per page to request from the API. This defaults to the limit, increase it if you're filtering tweets.
-*showAuthor:* Show username and profile picture. Defaults to false for user_timeline and true for all other modes.
-*filter:*     Pass a function to filter tweets before displaying them. 
-*service:*    Use another service with compatible API, for example 'identi.ca' or 'youraccount.status.net'.
-*timeLink:*   Pass timeLink: false to disable the timestamp on tweets.
+ mode:       Valid options are 'search', 'user_timeline', 'list', 'home_timeline'. 'search' is the default.
+ rate:       Refresh rate, in milliseconds. The default is 15000.
+ limit:      Maximum number of tweets to show at once. The default is 10.
+ imageSize:  Dimensions of profile image. The default is 24 pixels.
+ refresh:    Pass refresh: false to disable automatic refreshing.
+ rpp:        Results per page to request from the API. This defaults to the limit, increase it if you're filtering tweets.
+ showAuthor: Show username and profile picture. Defaults to false for user_timeline and true for all other modes.
+ filter:     Pass a function to filter tweets before displaying them. 
+ service:    Use another service with compatible API, for example 'identi.ca' or 'youraccount.status.net'.
+ timeLink:   Pass timeLink: false to disable the timestamp on tweets.
 
 === Options for search
 
-*geocode:*   Search tweets near a specific location. Example: '59.919151,10.749950,50km'
-*lang:*      Only show tweets in this language. Example: lang: 'fr'
+ geocode:    Search tweets near a specific location. Example: '59.919151,10.749950,50km'
+ lang:       Only show tweets in this language. Example: lang: 'fr'
 
 === Options for user_timeline
 
-*retweets:*  Includes native retweets. Disabled by default.
+ retweets:   Includes native retweets. Disabled by default.
 
 == A note on rate limiting
 
