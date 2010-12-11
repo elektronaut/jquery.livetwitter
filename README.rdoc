@@ -47,7 +47,10 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
 === Options for search
 
  geocode:    Search tweets near a specific location. Example: '59.919151,10.749950,50km'
- lang:       Only show tweets in this language. Example: lang: 'fr'
+ lang:       Only show tweets in this language.
+
+See the Twitter Search API for info on how geocode and lang works:
+http://search.twitter.com/api/
 
 === Options for user_timeline
 
