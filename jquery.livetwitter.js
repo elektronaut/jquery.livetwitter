@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.6.2
+ * jQuery LiveTwitter 1.6.3
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/12/06$
+ * $Date: 2010/12/11$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false */
@@ -54,6 +54,7 @@
 					imageSize: 24,       // Size of image in pixels
 					refresh:   true,
 					timeLinks: true,
+					retweets:  false,
 					service:   ''
 				}, options);
 
@@ -152,6 +153,9 @@
 									url = "http://" + settings.service + "/api/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
 								} else {
 									url = "http://api.twitter.com/1/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
+									if (twitter.mode === 'user_timeline' && this.settings.retweets) {
+										url += "&include_rts=1";
+									}
 								}
 							} else if (twitter.mode === 'list') {
 								var username = encodeURIComponent(this.query.user);

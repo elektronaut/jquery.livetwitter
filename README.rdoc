@@ -17,6 +17,10 @@ You can also show tweets from a user's timeline:
 
  $("#twitterSearch").liveTwitter({user: 'jquery', list: 'team'}, {limit: 10, rate: 300000, mode: 'list'});
 
+You can include native retweets by passing retweets: true:
+
+ $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', retweets: true});
+
 Showing profile image and username is toggleable, and disabled by default in user_time mode. Use showAuthor to enable.
 
  $("#twitterSearch").liveTwitter('elektronaut', {limit: 10, rate: 300000, mode: 'user_timeline', showAuthor: true});
@@ -92,82 +96,6 @@ If you want to apply behavior when new tweets are loaded, you can pass a callbac
  $('#twitterSearch').liveTwitter('bacon').bind('tweets', function(){
    alert('New tweets!');
  });
-
-
-== Changelog 
-
-=== 1.6.2
-
-* Marcel van der Boom added support for home_timeline
-
-=== 1.6.1
-
-* Image size is now configurable
-
-=== 1.6.0
-
-* Now also supports status.net/identi.ca thanks to Roman Weinberger
-
-=== 1.5.4
-
-* Timestamp links are optional (thanks, Tony!)
-
-=== 1.5.3
-
-* Support for empty queries
-
-=== 1.5.2
-
-* Timestamp now links to the tweet.
-
-=== 1.5.1
-
-* You can now clear the tweets (thanks to Ryan!).
-
-=== 1.5.0
-
-* Following lists is now supported.
-
-=== 1.4.4
-
-* Tweet filtering. Thanks to Alexander Støver.
-
-=== 1.4.3
-
-* Hashtags are now automatically linked. Fixed issue with username linking.
-
-=== 1.4.2
-
-* Fixed issue with higher limits than Twitter returns by default (thanks to Paul from Zerofee!)
-
-=== 1.4.1
-
-* Fixed broken parsing of timestamps in IE in user_timeline mode (thanks to Matt Adams!)
-
-=== 1.4.0
-
-* Callback and event trigger
-* Support for language selection
-
-=== 1.3.3
-
-* Now supports geocoding
-
-=== 1.3.2
-
-* Profile image and username is toggleable, can also be shown on user_timeline.
-
-=== 1.3.1
-
-* Smarter timestamps
-* Automatic refreshing can be disabled
-
-=== 1.3.0
-
-* Query parameters and options are changeable on the fly
-* stop(), start() and refresh()
-* Bugfixes
-
 
 
 == License:
