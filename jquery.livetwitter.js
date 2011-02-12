@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.6.3
+ * jQuery LiveTwitter 1.6.4
  * - Live updating Twitter plugin for jQuery
  *
- * Copyright (c) 2009-2010 Inge Jørgensen (elektronaut.no)
+ * Copyright (c) 2009-2011 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2010/12/11$
+ * $Date: 2011/02/11$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false */
@@ -118,6 +118,11 @@
 						if (this.settings.refresh || initialize) {
 							var url = '';
 							var params = {};
+							// support https
+							var url_protocol = 'http:';
+							if (window.location.protocol == 'https:') {
+								url_protocol = 'https:';
+							}
 							if (twitter.mode === 'search') {
 								if (this.query && this.query !== '') {
 									params.q = this.query;
@@ -143,16 +148,16 @@
 								}
 								paramsString = paramsString.join("&");
 								if (settings.service.length > 0) {
-									url = "http://" + settings.service + "/api/search.json?";
+									url = url_protocol+"//" + settings.service + "/api/search.json?";
 								} else {
-									url = "http://search.twitter.com/search.json?";
+									url = url_protocol+"//search.twitter.com/search.json?";
 								}
 								url += paramsString + "&callback=?";
 							} else if (twitter.mode === 'user_timeline' || twitter.mode === 'home_timeline') {
 								if (settings.service.length > 0) {
-									url = "http://" + settings.service + "/api/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
+									url = url_protocol+"//" + settings.service + "/api/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
 								} else {
-									url = "http://api.twitter.com/1/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
+									url = url_protocol+"//api.twitter.com/1/statuses/" + twitter.mode + "/" + encodeURIComponent(this.query) + ".json?count=" + twitter.limit + "&callback=?";
 									if (twitter.mode === 'user_timeline' && this.settings.retweets) {
 										url += "&include_rts=1";
 									}
@@ -160,7 +165,7 @@
 							} else if (twitter.mode === 'list') {
 								var username = encodeURIComponent(this.query.user);
 								var listname = encodeURIComponent(this.query.list);
-								url = "http://api.twitter.com/1/" + username + "/lists/" + listname + "/statuses.json?per_page=" + twitter.limit + "&callback=?";
+								url = url_protocol+"//api.twitter.com/1/" + username + "/lists/" + listname + "/statuses.json?per_page=" + twitter.limit + "&callback=?";
 							}
 							$.getJSON(url, function (json) {
 								var results = null;
@@ -185,6 +190,20 @@
 										// Fix for IE
 										created_at_date = this.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4");
 									}
+									// support https
+									// someday, twitter will add https support to twimg.com, but until then
+									// we have to rewrite the profile image urls to the old Amazone S3 urls
+									if (window.location.protocol == 'https:') {
+										var matches = profile_image_url.match(/http[s]?:\/\/a[0-9]\.twimg\.com\/(\w+)\/(\w+)\/(.*?)\.(\w+)/i);
+										if (matches) {
+											profile_image_url = "https://s3.amazonaws.com/twitter_production/"+matches[1]+"/"+matches[2]+"/"+matches[3]+"."+matches[4];
+										} else {
+											// failsafe, if profile image url does not match the pattern above
+											// then, at least, change the protocol to https
+											// the image may not load, but at least the page stays secure
+											profile_image_url = profile_image_url.replace('http:','https:');
+										}
+									}
 									if (settings.service.length > 0) {
 										tweet_url = 'http://' + settings.service + '/notice/' + this.id;
 									} else {
@@ -205,7 +224,7 @@
 									}
 									if (settings.service.length > 0) {
 										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-											return u.link('http://http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23'));
+											return u.link('http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23'));
 										});
 									} else {
 										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
