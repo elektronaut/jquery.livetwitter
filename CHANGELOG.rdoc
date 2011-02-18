@@ -1,5 +1,9 @@
 = Changelog 
 
+=== 1.6.4
+
+* Support for HTTPS (thanks to Keith Shaw!)
+
 === 1.6.3
 
 * Added support for native retweets on user_timeline
