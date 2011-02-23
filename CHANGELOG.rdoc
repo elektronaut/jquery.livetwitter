@@ -1,5 +1,10 @@
 = Changelog 
 
+=== 1.6.5
+
+* Properly handle the new Twitter IDs
+* Refactored and cleaned up some of the code
+
 === 1.6.4
 
 * Support for HTTPS (thanks to Keith Shaw!)
