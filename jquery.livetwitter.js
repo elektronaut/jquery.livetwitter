@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.6.5
+ * jQuery LiveTwitter 1.7.0
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2011 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2011/02/23$
+ * $Date: 2011/02/24$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false */
@@ -103,8 +103,8 @@
 						return r;
 					},
 
-					// Update the timestamps in realtime
-					refreshTime: function () {
+					// Update the relative timestamps
+					updateTimestamps: function () {
 						var twitter = this;
 						$(twitter.container).find('span.time').each(function () {
 							var time_element = twitter.settings.timeLinks ? $(this).find('a') : $(this);
@@ -119,7 +119,7 @@
 						var baseURL  = 'api.twitter.com/1/';
 						var endpoint = '';
 						
-						// Status.net
+						// Override for Twitter-compatible APIs like Status.net
 						if (this.settings.service) {
 							baseURL = this.settings.service + '/api/';
 						}
@@ -138,7 +138,7 @@
 						// User/home timeline mode
 						} else if (this.settings.mode === 'user_timeline' || this.settings.mode === 'home_timeline') {
 							endpoint = 'statuses/' + this.settings.mode + '/' + encodeURIComponent(this.query);
-							params   = {
+							params = {
 								count:       this.settings.limit,
 								include_rts: (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null
 							};
@@ -149,7 +149,7 @@
 							           '/lists/' + 
 							           encodeURIComponent(this.query.list) + 
 							           '/statuses';
-							params   = {
+							params = {
 								per_page: this.settings.limit
 							};
 						}
@@ -162,139 +162,184 @@
 							}
 						}
 						queryString = queryString.join("&");
-						
 
 						// Return the full URL
 						return protocol + '//' + baseURL + endpoint + '.json?' + queryString + '&callback=?';
+					},
+					
+					// The different APIs will format the results slightly different,
+					// so this method normalizes the tweet object.
+					parseTweet: function (json) {
+						var tweet = {
+							id:         (json.id_str) ? json.id_str : json.id,
+							text:       json.text,
+							created_at: json.created_at
+						};
+
+						// Search/regular API differences
+						if (this.settings.mode === 'search') {
+							tweet = $.extend(tweet, {
+								screen_name:       json.from_user,
+								profile_image_url: json.profile_image_url
+							});
+						} else {
+							tweet = $.extend(tweet, {
+								screen_name:       json.user.screen_name,
+								profile_image_url: json.user.profile_image_url,
+								created_at:        json.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4") // Fix for IE
+							});
+						}
+						
+						// Twitter/Status.net
+						if (this.settings.service) {
+							tweet = $.extend(tweet, {
+								url:         'http://' + this.settings.service + '/notice/' + tweet.id,
+								profile_url: 'http://' + settings.service + '/' + tweet.screen_name
+							});
+							if (window.location.protocol === 'https:') {
+								tweet.profile_image_url = tweet.profile_image_url.replace('http:', 'https:');
+							}
+
+						} else {
+							tweet = $.extend(tweet, {
+								url:         'http://twitter.com/#!/' + tweet.screen_name + '/status/' + tweet.id,
+								profile_url: 'http://twitter.com/#!/' + tweet.screen_name
+							});
+							// Someday, Twitter will add HTTPS support to twimg.com, but until then
+							// we have to rewrite the profile image urls to the old Amazon S3 urls.
+							if (window.location.protocol === 'https:') {
+								var matches = tweet.profile_image_url.match(/http[s]?:\/\/a[0-9]\.twimg\.com\/(\w+)\/(\w+)\/(.*?)\.(\w+)/i);
+								if (matches) {
+									tweet.profile_image_url = "https://s3.amazonaws.com/twitter_production/" + matches[1] + "/" + matches[2] + "/" + matches[3] + "." + matches[4];
+								} else {
+									// Failsafe, if profile image url does not match the pattern above
+									// then, at least, change the protocol to HTTPS.
+									// The image may not load, but at least the page stays secure.
+									tweet.profile_image_url = tweet.profile_image_url.replace('http:', 'https:');
+								}
+							}
+						}
+						
+						return tweet;
+					},
+					
+					// Parses the tweet body, linking URLs, #hashtags and @usernames.
+					parseText: function (text) {
+						// URLs
+						text = text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function (m) { 
+							return m.link(m); 
+						});
+
+						// Twitter
+						if (!this.settings.service) {
+							// @usernames
+							text = text.replace(/@[A-Za-z0-9_]+/g, function (u) {
+								return u.link('http://twitter.com/#!/' + u.replace(/^@/, ''));
+							});
+							// #hashtags
+							text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
+								return u.link('http://twitter.com/#!/search/' + u.replace(/^#/, '%23'));
+							});
+							
+						// Other APIs
+						} else {
+							text = text.replace(/@[A-Za-z0-9_]+/g, function (u) {
+								return u.link('http://' + settings.service + '/' + u.replace(/^@/, ''));
+							});
+							text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
+								return u.link('http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23'));
+							});
+						}
+						
+						return text;
+					},
+					
+					// Renders a tweet to HTML
+					renderTweet: function (tweet) {
+						var html = '<div class="tweet tweet-' + tweet.id + '">';
+
+						if (this.settings.showAuthor) {
+							html += '<img width="' + this.settings.imageSize + '" height="' + this.settings.imageSize + '" src="' + tweet.profile_image_url + '" />';
+							html += '<p class="text"><span class="username"><a href="' + tweet.profile_url + '">' + tweet.screen_name + '</a>:</span> ';
+						} else {
+							html += '<p class="text"> ';
+						}
+
+						html += this.parseText(tweet.text);
+						
+						if (this.settings.timeLinks) {
+							html += ' <span class="time">';
+							html += '<a href="' + tweet.url + '">';
+							html += this.relativeTime(tweet.created_at);
+							html += '</a></span>';
+						} else {
+							html += ' <span class="time">' + this.relativeTime(tweet.created_at) + '</span>';
+						}
+
+						html += '</p></div>';
+
+						return html;
 					},
 
 					// Handle reloading
 					refresh: function (initialize) {
 						var twitter = this;
-						var settings = this.settings;
-						if (settings.refresh || initialize) {
+						if (twitter.settings.refresh || initialize) {
+
 							$.getJSON(twitter.apiURL(), function (json) {
-								var results = null;
-								if (settings.mode === 'search') {
-									results = json.results;
-								} else {
-									results = json;
-								}
 								var newTweets = 0;
+
+								// The search and regular APIs differ somewhat
+								var results = (twitter.settings.mode === 'search') ? json.results : json;
+
 								$(results).reverse().each(function () {
-									var tweet_id = this.id;
-									// Deal with the new Twitter IDSs
-									if (this.id_str) {
-										tweet_id = this.id_str;
-									}
-									var screen_name = '';
-									var profile_image_url = '';
-									var created_at_date = '';
-									var tweet_url = '';
-									if (settings.mode === 'search') {
-										screen_name = this.from_user;
-										profile_image_url = this.profile_image_url;
-										created_at_date = this.created_at;
-									} else {
-										screen_name = this.user.screen_name;
-										profile_image_url = this.user.profile_image_url;
-										// Fix for IE
-										created_at_date = this.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4");
-									}
-									// support https
-									// someday, twitter will add https support to twimg.com, but until then
-									// we have to rewrite the profile image urls to the old Amazone S3 urls
-									if (window.location.protocol === 'https:') {
-										var matches = profile_image_url.match(/http[s]?:\/\/a[0-9]\.twimg\.com\/(\w+)\/(\w+)\/(.*?)\.(\w+)/i);
-										if (matches) {
-											profile_image_url = "https://s3.amazonaws.com/twitter_production/" + matches[1] + "/" + matches[2] + "/" + matches[3] + "." + matches[4];
-										} else {
-											// failsafe, if profile image url does not match the pattern above
-											// then, at least, change the protocol to https
-											// the image may not load, but at least the page stays secure
-											profile_image_url = profile_image_url.replace('http:', 'https:');
-										}
-									}
-									if (settings.service.length > 0) {
-										tweet_url = 'http://' + settings.service + '/notice/' + tweet_id;
-									} else {
-										tweet_url = 'http://twitter.com/' + screen_name + '/statuses/' + tweet_id;
-									}
-									var userInfo = this.user;
-									var linkified_text = this.text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function (m) { 
-										return m.link(m); 
-									});
-									if (settings.service.length > 0) {
-										linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function (u) {
-											return u.link('http://' + settings.service + '/' + u.replace(/^@/, ''));
-										});
-									} else {
-										linkified_text = linkified_text.replace(/@[A-Za-z0-9_]+/g, function (u) {
-											return u.link('http://twitter.com/' + u.replace(/^@/, ''));
-										});
-									}
-									if (settings.service.length > 0) {
-										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-											return u.link('http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23'));
-										});
-									} else {
-										linkified_text = linkified_text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-											return u.link('http://search.twitter.com/search?q=' + u.replace(/^#/, '%23'));
-										});
-									}
+									var tweet = twitter.parseTweet(this);
 									
-									if (!settings.filter || settings.filter(this)) {
-										if (Date.parse(created_at_date) > twitter.lastTimeStamp) {
-											newTweets += 1;
-											var tweetHTML = '<div class="tweet tweet-' + tweet_id + '">';
-											if (settings.showAuthor) {
-												var profile_url = '';
-												if (settings.service.length > 0) {
-													profile_url = 'http://' + settings.service + '/' + screen_name;
-												} else {
-													profile_url = 'http://twitter.com/' + screen_name;
-												}
-												tweetHTML += 
-													'<img width="' + settings.imageSize + '" height="' + settings.imageSize + '" src="' + profile_image_url + '" />' +
-													'<p class="text"><span class="username"><a href="' + profile_url + '">' + screen_name + '</a>:</span> ';
-											} else {
-												tweetHTML += 
-													'<p class="text"> ';
-											}
+									// Check if tweets should be filtered
+									if (!twitter.settings.filter || twitter.settings.filter(this)) {
+										// Check if this is actually a new tweet
+										if (Date.parse(tweet.created_at) > twitter.lastTimeStamp) {
 
-											var timeText = twitter.relativeTime(created_at_date);
-											var timeHTML = settings.timeLinks ? '<a href="' + tweet_url + '">' + timeText + '</a>' : timeText;
+											// Insert the HTML
+											$(twitter.container).prepend(twitter.renderTweet(tweet));
 
-											tweetHTML += 
-												linkified_text +
-												' <span class="time">' + timeHTML + '</span>' +
-												'</p>' +
-												'</div>';
-											$(twitter.container).prepend(tweetHTML);
-											var timeStamp = created_at_date;
+											// Make a note of the timestamp on the first span
+											// so we can update it later.
 											$(twitter.container).find('span.time:first').each(function () {
-												this.timeStamp = timeStamp;
+												this.timeStamp = tweet.created_at;
 											});
+
+											// Fade in new tweets unless this is the first load.
 											if (!initialize) {
-												$(twitter.container).find('.tweet-' + tweet_id).hide().fadeIn();
+												$(twitter.container).find('.tweet-' + tweet.id).hide().fadeIn();
 											}
-											twitter.lastTimeStamp = Date.parse(created_at_date);
+
+											// Remember the last timestamp for the next refresh.
+											twitter.lastTimeStamp = Date.parse(tweet.created_at);
+
+											newTweets += 1;
 										}
 									}
 								});
+
+								// Did we get any new tweets?
 								if (newTweets > 0) {
-									// Limit number of entries
-									$(twitter.container).find('div.tweet:gt(' + (settings.limit - 1) + ')').remove();
+									// Remove old entries exceeding the limit
+									$(twitter.container).find('div.tweet:gt(' + (twitter.settings.limit - 1) + ')').remove();
+
 									// Run callback
 									if (twitter.callback) {
 										twitter.callback(domNode, newTweets);
 									}
+
 									// Trigger event
 									$(domNode).trigger('tweets');
 								}
 							});
 						}	
 					},
+
+					// Start refreshing
 					start: function () {
 						var twitter = this;
 						if (!this.interval) {
@@ -304,21 +349,29 @@
 							this.refresh(true);
 						}
 					},
+
+					// Stop refreshing
 					stop: function () {
 						if (this.interval) {
 							clearInterval(this.interval);
 							this.interval = false;
 						}
 					},
+
+					// Clear all tweets
 					clear: function () {
 						$(this.container).find('div.tweet').remove();
 						this.lastTimeStamp = null;
 					}
 				};
+
 				var twitter = this.twitter;
+
+				// Update the timestamps in realtime
 				this.timeInterval = setInterval(function () {
-					twitter.refreshTime();
+					twitter.updateTimestamps();
 				}, 5000);
+
 				this.twitter.start();
 			}
 		});

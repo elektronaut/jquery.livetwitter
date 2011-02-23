@@ -1,9 +1,10 @@
 = Changelog 
 
-=== 1.6.5
+=== 1.7.0
 
 * Properly handle the new Twitter IDs
-* Refactored and cleaned up some of the code
+* Twitter links now use the new hashbang format
+* Much needed refactoring and cleaning of the code base
 
 === 1.6.4
 
