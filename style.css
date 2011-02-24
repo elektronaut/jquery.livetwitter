@@ -1,0 +1,119 @@
+body {
+	margin-top:       1.0em;
+	background-color: #F1EFE3;
+	font-family:      "helvetica", arial, sans-serif;
+	color:            #111;
+	line-height:      1.4;
+}
+#container {
+	margin:           0 auto;
+	padding: 60px 0;
+	width:            700px;
+}
+h1, h2, h3, h1 a, h1 a:visited {
+	color:            #651800;
+}
+h1 {
+	font-size:        3.8em;
+	margin-bottom:    3px;
+}
+h1 .small {
+	font-size:        0.4em;
+}
+h1 a {
+	text-decoration:  none
+}
+h2 {
+	margin-top: 2em;
+	font-size:        1.5em;
+}
+h3 {
+	text-align:       center;
+}
+a {
+	color:            #02416D;
+	text-decoration:  underline;
+	padding:          2px 4px;
+	margin:           -2px -4px;
+}
+a:hover {
+	color:            #111;
+	text-decoration:  underline;
+}
+.description {
+	font-size:        1.2em;
+	margin-bottom:    30px;
+	margin-top:       30px;
+}
+.download {
+	float:            right;
+}
+pre {
+	font-family: Monaco, "Courier New";
+	font-size: 12px;
+	line-height: 1.6;
+	background:       #FDFAF8;
+	color:            #222;
+	padding:          15px;
+	border: 1px solid #DBD1B3;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+hr {
+	border:           0;
+	width:            80%;
+	border-bottom:    1px solid #aaa
+}
+.footer {
+	text-align:       center;
+	padding-top:      30px;
+	font-style:       italic;
+}
+
+.tweets {
+	background: #444;
+	padding: 1px 5px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+.tweets .loading {
+	padding: 10px 20px;
+	color: #ccc;
+}
+
+.tweet {
+	font-size: 13px;
+	background: #fff;
+	margin: 4px 0;
+	padding: 8px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.tweet img {
+	float: left;
+}
+.tweet .text {
+	margin: 0;
+	margin-left: 44px;
+}
+.tweet .username {
+	display: block;
+}
+.tweet .username a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #111;
+}
+.tweet .time a {
+	font-size: 80%;
+	color: #888;
+	white-space: nowrap;
+	text-decoration: none;
+	padding-left: 8px;
+}
+#searchTerm {
+	color: #111;
+	background: #fff;
+	padding: 0 8px;
+}
