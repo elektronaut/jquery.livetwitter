@@ -58,14 +58,14 @@
           timeLinks: true,
           retweets:  false,
           service:   false,
-          language: {
-            seconds : 'seconds ago',
-            minute :  'a minute ago',
-            minutes : 'minutes ago',
-            hour :    'an hour ago',
-            hours :   'hours ago',
-            day :     'a day ago',
-            days :    'days ago'
+          localization: {
+            seconds: 'seconds ago',
+            minute:  'a minute ago',
+            minutes: 'minutes ago',
+            hour:    'an hour ago',
+            hours:   'hours ago',
+            day:     'a day ago',
+            days:    'days ago'
           }
         }, options);
         // showAuthor should default to true unless mode is 'user_timeline'.
@@ -94,19 +94,19 @@
             var delta = (Date.parse(Date()) - parsedDate) / 1000;
             var r = '';
             if  (delta < 60) {
-              r = delta + " " + settings.language.seconds;
+              r = delta + " " + settings.localization.seconds;
             } else if (delta < 120) {
-              r = settings.language.minute;
+              r = settings.localization.minute;
             } else if (delta < (45 * 60)) {
-              r = (parseInt(delta / 60, 10)).toString() + " " + settings.language.minutes;
+              r = (parseInt(delta / 60, 10)).toString() + " " + settings.localization.minutes;
             } else if (delta < (90 * 60)) {
-              r = settings.language.hour;
+              r = settings.localization.hour;
             } else if (delta < (24 * 60 * 60)) {
-              r = '' + (parseInt(delta / 3600, 10)).toString() + " " + settings.language.hours;
+              r = '' + (parseInt(delta / 3600, 10)).toString() + " " + settings.localization.hours;
             } else if (delta < (48 * 60 * 60)) {
-              r = settings.language.day;
+              r = settings.localization.day;
             } else {
-              r = (parseInt(delta / 86400, 10)).toString() + " " + settings.language.days;
+              r = (parseInt(delta / 86400, 10)).toString() + " " + settings.localization.days;
             }
             return r;
           },
