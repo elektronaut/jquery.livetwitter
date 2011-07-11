@@ -57,9 +57,17 @@
           refresh:   true,
           timeLinks: true,
           retweets:  false,
-          service:   false
+          service:   false,
+          language: {
+            seconds : 'seconds ago',
+            minute :  'a minute ago',
+            minutes : 'minutes ago',
+            hour :    'an hour ago',
+            hours :   'hours ago',
+            day :     'a day ago',
+            days :    'days ago'
+          }
         }, options);
-
         // showAuthor should default to true unless mode is 'user_timeline'.
         if (typeof settings.showAuthor === "undefined") {
           settings.showAuthor = (settings.mode === 'user_timeline') ? false : true;
@@ -86,19 +94,19 @@
             var delta = (Date.parse(Date()) - parsedDate) / 1000;
             var r = '';
             if  (delta < 60) {
-              r = delta + ' seconds ago';
+              r = delta + " " + settings.language.seconds;
             } else if (delta < 120) {
-              r = 'a minute ago';
+              r = settings.language.minute;
             } else if (delta < (45 * 60)) {
-              r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
+              r = (parseInt(delta / 60, 10)).toString() + " " + settings.language.minutes;
             } else if (delta < (90 * 60)) {
-              r = 'an hour ago';
+              r = settings.language.hour;
             } else if (delta < (24 * 60 * 60)) {
-              r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
+              r = '' + (parseInt(delta / 3600, 10)).toString() + " " + settings.language.hours;
             } else if (delta < (48 * 60 * 60)) {
-              r = 'a day ago';
+              r = settings.language.day;
             } else {
-              r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
+              r = (parseInt(delta / 86400, 10)).toString() + " " + settings.language.days;
             }
             return r;
           },
