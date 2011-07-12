@@ -4,6 +4,7 @@
 
 * The timestamp text can now be localized (thanks to Fábio Nakatani!)
 * Added rel="external" to all links
+* Fix for StatusNet profile URLs
 
 === 1.7.0
 

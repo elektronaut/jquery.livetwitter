@@ -202,7 +202,7 @@
             if (this.settings.service) {
               tweet = $.extend(tweet, {
                 url:         'http://' + this.settings.service + '/notice/' + tweet.id,
-                profile_url: 'http://' + settings.service + '/' + tweet.screen_name
+                profile_url: json.user.statusnet_profile_url
               });
               if (window.location.protocol === 'https:') {
                 tweet.profile_image_url = tweet.profile_image_url.replace('http:', 'https:');
