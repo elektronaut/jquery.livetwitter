@@ -1,5 +1,9 @@
 = Changelog 
 
+=== 1.7.1
+
+* The timestamp text can now be localized (thanks to Fábio Nakatani!)
+
 === 1.7.0
 
 * Properly handle the new Twitter IDs
