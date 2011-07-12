@@ -3,6 +3,7 @@
 === 1.7.1
 
 * The timestamp text can now be localized (thanks to Fábio Nakatani!)
+* Added rel="external" to all links
 
 === 1.7.0
 

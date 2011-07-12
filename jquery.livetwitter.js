@@ -234,28 +234,28 @@
           // Parses the tweet body, linking URLs, #hashtags and @usernames.
           parseText: function (text) {
             // URLs
-            text = text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function (m) { 
-              return m.link(m); 
+            text = text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function (m) {
+              return '<a href="' + m + '" rel="external">' + m + '</a>';
             });
 
             // Twitter
             if (!this.settings.service) {
               // @usernames
               text = text.replace(/@[A-Za-z0-9_]+/g, function (u) {
-                return u.link('http://twitter.com/#!/' + u.replace(/^@/, ''));
+                return '<a href="http://twitter.com/#!/' + u.replace(/^@/, '') + '" rel="external">' + u + '</a>';
               });
               // #hashtags
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-                return u.link('http://twitter.com/#!/search/' + u.replace(/^#/, '%23'));
+                return '<a href="http://twitter.com/#!/search' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
               
             // Other APIs
             } else {
               text = text.replace(/@[A-Za-z0-9_]+/g, function (u) {
-                return u.link('http://' + settings.service + '/' + u.replace(/^@/, ''));
+                return '<a href="http://' + settings.service + '/' + u.replace(/^@/, '') + '" rel="external">' + u + '</a>';
               });
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-                return u.link('http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23'));
+                return '<a href="http://' + settings.service + '/search/notice?q?' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
             }
             
@@ -268,7 +268,7 @@
 
             if (this.settings.showAuthor) {
               html += '<img width="' + this.settings.imageSize + '" height="' + this.settings.imageSize + '" src="' + tweet.profile_image_url + '" />';
-              html += '<p class="text"><span class="username"><a href="' + tweet.profile_url + '">' + tweet.screen_name + '</a>:</span> ';
+              html += '<p class="text"><span class="username"><a href="' + tweet.profile_url + '" rel="external">' + tweet.screen_name + '</a>:</span> ';
             } else {
               html += '<p class="text"> ';
             }
@@ -277,7 +277,7 @@
             
             if (this.settings.timeLinks) {
               html += ' <span class="time">';
-              html += '<a href="' + tweet.url + '">';
+              html += '<a href="' + tweet.url + '" rel="external">';
               html += this.relativeTime(tweet.created_at);
               html += '</a></span>';
             } else {
