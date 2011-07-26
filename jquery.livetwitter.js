@@ -246,7 +246,7 @@
               });
               // #hashtags
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-                return '<a href="http://twitter.com/#!/search' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
+                return '<a href="http://twitter.com/#!/search?q=' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
               
             // Other APIs
