@@ -46,7 +46,7 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
  showAuthor:   Show username and profile picture. Defaults to false for user_timeline and true for all other modes.
  filter:       Pass a function to filter tweets before displaying them. 
  service:      Use another service with compatible API, for example 'identi.ca' or 'youraccount.status.net'.
- timeLink:     Pass timeLink: false to disable the timestamp on tweets.
+ timeLinks:    Pass timeLinks: false to disable the timestamp on tweets.
  localization: Hash for localization strings, see example.
 
 === Options for search

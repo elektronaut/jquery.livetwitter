@@ -209,7 +209,7 @@
             if (this.settings.service) {
               tweet = $.extend(tweet, {
                 url:         'http://' + this.settings.service + '/notice/' + tweet.id,
-                profile_url: json.user.statusnet_profile_url
+                profile_url: 'http://' + this.settings.service + '/' + json.from_user
               });
               if (window.location.protocol === 'https:') {
                 tweet.profile_image_url = tweet.profile_image_url.replace('http:', 'https:');
@@ -253,7 +253,7 @@
               });
               // #hashtags
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-                return '<a href="http://twitter.com/#!/search' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
+                return '<a href="http://twitter.com/#!/search?q=' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
               
             // Other APIs
