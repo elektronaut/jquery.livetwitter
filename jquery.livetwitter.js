@@ -151,6 +151,13 @@
                 include_rts: (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null
               };
 
+            // Favorites mode
+            } else if (this.settings.mode === 'favorites') {
+              endpoint = 'favorites';
+              params = {
+                id:       encodeURIComponent(this.query)
+              };
+
             // List mode
             } else if (this.settings.mode === 'list') {
               endpoint = encodeURIComponent(this.query.user) + 
