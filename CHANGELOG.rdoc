@@ -1,5 +1,10 @@
 = Changelog 
 
+=== 1.7.2
+
+* Showing a user's favorites is now possible
+* New fix for StatusNet profile URLs (thanks, marcelometal!)
+
 === 1.7.1
 
 * The timestamp text can now be localized (thanks to Fábio Nakatani!)
