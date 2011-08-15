@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.7.1
+ * jQuery LiveTwitter 1.7.2
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2011 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2011/07/12$
+ * $Date: 2011/08/15$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false, indent: 2 */
