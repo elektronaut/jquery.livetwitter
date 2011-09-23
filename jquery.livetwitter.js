@@ -241,7 +241,7 @@
           // Parses the tweet body, linking URLs, #hashtags and @usernames.
           parseText: function (text) {
             // URLs
-            text = text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function (m) {
+            text = text.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g, function (m) {
               return '<a href="' + m + '" rel="external">' + m + '</a>';
             });
 
