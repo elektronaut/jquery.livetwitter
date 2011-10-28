@@ -37,7 +37,7 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
 
 === Global options
 
- mode:         Valid options are 'search', 'user_timeline', 'list', 'home_timeline', 'favorites'. 'search' is the default.
+ mode:         Valid options are 'search', 'user_timeline', 'list', 'favorites'. 'search' is the default.
  rate:         Refresh rate, in milliseconds. The default is 15000.
  limit:        Maximum number of tweets to show at once. The default is 10.
  imageSize:    Dimensions of profile image. The default is 24 pixels.

@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.7.2
+ * jQuery LiveTwitter 1.7.3
  * - Live updating Twitter plugin for jQuery
  *
  * Copyright (c) 2009-2011 Inge Jørgensen (elektronaut.no)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2011/08/15$
+ * $Date: 2011/10/28$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false, indent: 2 */
@@ -56,7 +56,7 @@
           imageSize: 24,       // Size of image in pixels
           refresh:   true,
           timeLinks: true,
-					replies:   true,
+          replies:   true,
           retweets:  false,
           service:   false,
           localization: {

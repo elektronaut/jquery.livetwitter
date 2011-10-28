@@ -1,5 +1,9 @@
 = Changelog 
 
+=== 1.7.3
+
+* Support for excluding replies in user_timeline mode
+
 === 1.7.2
 
 * Showing a user's favorites is now possible
