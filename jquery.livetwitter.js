@@ -56,6 +56,7 @@
           imageSize: 24,       // Size of image in pixels
           refresh:   true,
           timeLinks: true,
+					replies:   true,
           retweets:  false,
           service:   false,
           localization: {
@@ -147,8 +148,9 @@
             } else if (this.settings.mode === 'user_timeline' || this.settings.mode === 'home_timeline') {
               endpoint = 'statuses/' + this.settings.mode + '/' + encodeURIComponent(this.query);
               params = {
-                count:       this.settings.limit,
-                include_rts: (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null
+                count:           this.settings.limit,
+                include_rts:     (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null,
+                exclude_replies: (!this.settings.replies) ? '1' : null
               };
 
             // Favorites mode

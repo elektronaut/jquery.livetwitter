@@ -59,6 +59,7 @@ See the Twitter Search API for info on how geocode and lang works: http://search
 === Options for user_timeline
 
  retweets:   Includes native retweets. Disabled by default.
+ replies:    Includes replies. Enabled by default.
  
 === Localization
 
