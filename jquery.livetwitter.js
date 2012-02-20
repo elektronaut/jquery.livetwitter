@@ -2,7 +2,7 @@
  * jQuery LiveTwitter 1.7.3
  * - Live updating Twitter plugin for jQuery
  *
- * Copyright (c) 2009-2011 Inge Jørgensen (elektronaut.no)
+ * Copyright (c) 2009-2011 Inge Jørgensen (@elektronaut)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
  * $Date: 2011/10/28$
@@ -25,7 +25,7 @@
       return this.pushStack(this.get().reverse(), arguments);
     };
   }
-  
+
   $.fn.liveTwitter = function (query, options, callback) {
     var domNode = this;
     $(this).each(function () {
@@ -120,19 +120,19 @@
               time_element.html(twitter.relativeTime(this.timeStamp));
             });
           },
-          
+
           apiURL: function () {
             var params = {};
 
             var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
             var baseURL  = 'api.twitter.com/1/';
             var endpoint = '';
-            
+
             // Override for Twitter-compatible APIs like Status.net
             if (this.settings.service) {
               baseURL = this.settings.service + '/api/';
             }
-            
+
             // Search mode
             if (this.settings.mode === 'search') {
               baseURL  = (this.settings.service) ? this.settings.service + '/api/' : 'search.twitter.com/';
@@ -143,7 +143,7 @@
                 lang:     this.settings.lang,
                 rpp:      (this.settings.rpp) ? this.settings.rpp : this.settings.limit
               };
-              
+
             // User/home timeline mode
             } else if (this.settings.mode === 'user_timeline' || this.settings.mode === 'home_timeline') {
               endpoint = 'statuses/' + this.settings.mode + '/' + encodeURIComponent(this.query);
@@ -162,9 +162,9 @@
 
             // List mode
             } else if (this.settings.mode === 'list') {
-              endpoint = encodeURIComponent(this.query.user) + 
-                         '/lists/' + 
-                         encodeURIComponent(this.query.list) + 
+              endpoint = encodeURIComponent(this.query.user) +
+                         '/lists/' +
+                         encodeURIComponent(this.query.list) +
                          '/statuses';
               params = {
                 per_page: this.settings.limit
@@ -183,7 +183,7 @@
             // Return the full URL
             return protocol + '//' + baseURL + endpoint + '.json?' + queryString + '&callback=?';
           },
-          
+
           // The different APIs will format the results slightly different,
           // so this method normalizes the tweet object.
           parseTweet: function (json) {
@@ -206,7 +206,7 @@
                 created_at:        json.created_at.replace(/^(\w+)\s(\w+)\s(\d+)(.*)(\s\d+)$/, "$1, $3 $2$5$4") // Fix for IE
               });
             }
-            
+
             // Twitter/Status.net
             if (this.settings.service) {
               tweet = $.extend(tweet, {
@@ -236,10 +236,10 @@
                 }
               }
             }
-            
+
             return tweet;
           },
-          
+
           // Parses the tweet body, linking URLs, #hashtags and @usernames.
           parseText: function (text) {
             // URLs
@@ -257,7 +257,7 @@
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
                 return '<a href="http://twitter.com/#!/search?q=' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
-              
+
             // Other APIs
             } else {
               text = text.replace(/@[A-Za-z0-9_]+/g, function (u) {
@@ -267,10 +267,10 @@
                 return '<a href="http://' + settings.service + '/search/notice?q?' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
             }
-            
+
             return text;
           },
-          
+
           // Renders a tweet to HTML
           renderTweet: function (tweet) {
             var html = '<div class="tweet tweet-' + tweet.id + '">';
@@ -283,7 +283,7 @@
             }
 
             html += this.parseText(tweet.text);
-            
+
             if (this.settings.timeLinks) {
               html += ' <span class="time">';
               html += '<a href="' + tweet.url + '" rel="external">';
@@ -311,7 +311,7 @@
 
                 $(results).reverse().each(function () {
                   var tweet = twitter.parseTweet(this);
-                  
+
                   // Check if tweets should be filtered
                   if (!twitter.settings.filter || twitter.settings.filter(this)) {
                     // Check if this is actually a new tweet
@@ -353,7 +353,7 @@
                   $(domNode).trigger('tweets');
                 }
               });
-            }  
+            }
           },
 
           // Start refreshing
