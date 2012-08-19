@@ -58,6 +58,7 @@
           timeLinks: true,
           replies:   true,
           retweets:  false,
+          entities:  false,
           service:   false,
           localization: {
             seconds: 'seconds ago',
@@ -150,6 +151,7 @@
               params = {
                 count:           this.settings.limit,
                 include_rts:     (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null,
+                include_entities:     (this.settings.mode === 'user_timeline' && this.settings.entities) ? '1' : null,
                 exclude_replies: (!this.settings.replies) ? '1' : null
               };
 
