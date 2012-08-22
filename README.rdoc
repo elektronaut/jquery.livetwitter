@@ -1,6 +1,6 @@
 = jQuery LiveTwitter
 
-LiveTwitter is a lightweight, live updating Twitter plugin for jQuery. 
+LiveTwitter is a lightweight, live updating Twitter plugin for jQuery.
 You can use it to show a stream of tweets based on search queries, or tweets
 from a specific user or list. It also supports StatusNet/identi.ca.
 
@@ -44,10 +44,11 @@ Changing the query or options is pretty easy, just call liveTwitter again with t
  refresh:      Pass refresh: false to disable automatic refreshing.
  rpp:          Results per page to request from the API. This defaults to the limit, increase it if you're filtering tweets.
  showAuthor:   Show username and profile picture. Defaults to false for user_timeline and true for all other modes.
- filter:       Pass a function to filter tweets before displaying them. 
+ filter:       Pass a function to filter tweets before displaying them.
  service:      Use another service with compatible API, for example 'identi.ca' or 'youraccount.status.net'.
  timeLinks:    Pass timeLinks: false to disable the timestamp on tweets.
  localization: Hash for localization strings, see example.
+ entities:     Includes entities. Disabled by default.
 
 === Options for search
 
@@ -60,12 +61,11 @@ See the Twitter Search API for info on how geocode and lang works: http://search
 
  retweets:   Includes native retweets. Disabled by default.
  replies:    Includes replies. Enabled by default.
- entities:   Includes entities. Disabled by default.
- 
+
 === Localization
 
 The timestamp text is in english by default, but can be localized. Here's
-an example for Norwegian: 
+an example for Norwegian:
 
  $('#tweets').liveTwitter('bacon', {localization: {
    seconds: 'sekunder siden',
@@ -79,13 +79,13 @@ an example for Norwegian:
 
 == A note on rate limiting
 
-The Twitter API enforces a limit on how many requests you can perform in a 
-certain timeframe. The search API has a rather liberal rate limit, but the 
-other modes are noticeably harsher. I recommend setting a higher limit 
-(like 300000) if you're displaying a user timeline. 
+The Twitter API enforces a limit on how many requests you can perform in a
+certain timeframe. The search API has a rather liberal rate limit, but the
+other modes are noticeably harsher. I recommend setting a higher limit
+(like 300000) if you're displaying a user timeline.
 
 If you're constantly refreshing the page while developing and suddenly start
-seeing tweets dropping out, this is probably the reason. 
+seeing tweets dropping out, this is probably the reason.
 
 == Advanced usage
 
@@ -101,7 +101,7 @@ If you want to clear the tweets on changing query, you can do this:
 
 === Filtering tweets
 
-You can filter tweets by providing a function: 
+You can filter tweets by providing a function:
 
  $('#tweets').liveTwitter('bacon', {limit: 10, rpp: 100, filter: function(tweet){
    return ($.inArray(tweet.iso_language_code, ['no', 'sv']) > -1); // Show only norwegian and swedish tweets

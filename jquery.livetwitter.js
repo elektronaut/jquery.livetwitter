@@ -1,11 +1,11 @@
 /*
- * jQuery LiveTwitter 1.7.3
+ * jQuery LiveTwitter 1.7.4
  * - Live updating Twitter plugin for jQuery
  *
- * Copyright (c) 2009-2011 Inge Jørgensen (@elektronaut)
+ * Copyright (c) 2009-2012 Inge Jørgensen (@elektronaut)
  * Licensed under the MIT license (MIT-LICENSE.txt)
  *
- * $Date: 2011/10/28$
+ * $Date: 2012/08/22$
  */
 
 /*jslint browser: true, devel: true, onevar: false, immed: false, regexp: false, indent: 2 */
@@ -149,10 +149,9 @@
             } else if (this.settings.mode === 'user_timeline' || this.settings.mode === 'home_timeline') {
               endpoint = 'statuses/' + this.settings.mode + '/' + encodeURIComponent(this.query);
               params = {
-                count:           this.settings.limit,
-                include_rts:     (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null,
-                include_entities:     (this.settings.mode === 'user_timeline' && this.settings.entities) ? '1' : null,
-                exclude_replies: (!this.settings.replies) ? '1' : null
+                count:            this.settings.limit,
+                include_rts:      (this.settings.mode === 'user_timeline' && this.settings.retweets) ? '1' : null,
+                exclude_replies:  (!this.settings.replies) ? '1' : null
               };
 
             // Favorites mode
@@ -172,6 +171,9 @@
                 per_page: this.settings.limit
               };
             }
+
+            // Include entities?
+            params.include_entities = (this.settings.entities) ? '1' : null;
 
             // Construct the query string
             var queryString = [];
@@ -312,10 +314,10 @@
                 var results = (twitter.settings.mode === 'search') ? json.results : json;
 
                 $(results).reverse().each(function () {
-                  var tweet = twitter.parseTweet(this);
-
                   // Check if tweets should be filtered
                   if (!twitter.settings.filter || twitter.settings.filter(this)) {
+                    var tweet = twitter.parseTweet(this);
+
                     // Check if this is actually a new tweet
                     if (Date.parse(tweet.created_at) > twitter.lastTimeStamp) {
 

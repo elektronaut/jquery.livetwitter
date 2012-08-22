@@ -1,4 +1,9 @@
-= Changelog 
+= Changelog
+
+=== 1.7.4
+
+* Filters can now modify tweets (thanks, timarney!)
+* Option for including entities in the response (thanks, clemsos!)
 
 === 1.7.3
 
