@@ -276,8 +276,9 @@
           },
 
           // Renders a tweet to HTML
-          renderTweet: function (tweet) {
-            var html = '<div class="tweet tweet-' + tweet.id + '">';
+          renderTweet: function (tweet, i) {
+            var even = (i%2 == 0 ? true : false);
+            var html = '<div class="tweet tweet-' + tweet.id + ' '+(even ? "even" : "odd")+'">';
 
             if (this.settings.showAuthor) {
               html += '<img width="' + this.settings.imageSize + '" height="' + this.settings.imageSize + '" src="' + tweet.profile_image_url + '" />';
@@ -313,7 +314,7 @@
                 // The search and regular APIs differ somewhat
                 var results = (twitter.settings.mode === 'search') ? json.results : json;
 
-                $(results).reverse().each(function () {
+                $(results).reverse().each(function (i) {
                   // Check if tweets should be filtered
                   if (!twitter.settings.filter || twitter.settings.filter(this)) {
                     var tweet = twitter.parseTweet(this);
@@ -322,7 +323,7 @@
                     if (Date.parse(tweet.created_at) > twitter.lastTimeStamp) {
 
                       // Insert the HTML
-                      $(twitter.container).prepend(twitter.renderTweet(tweet));
+                      $(twitter.container).prepend(twitter.renderTweet(tweet,i));
 
                       // Make a note of the timestamp on the first span
                       // so we can update it later.
