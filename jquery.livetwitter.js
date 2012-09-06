@@ -88,6 +88,7 @@
           interval:      false,
           container:     this,
           lastTimeStamp: 0,
+          tweetCount: 0,
           callback:      callback,
 
           // Convert the time stamp to a more human readable format
@@ -276,8 +277,8 @@
           },
 
           // Renders a tweet to HTML
-          renderTweet: function (tweet, i) {
-            var even = (i%2 == 0 ? true : false);
+          renderTweet: function (tweet) {
+            var even = (this.tweetCount%2 == 0 ? true : false);
             var html = '<div class="tweet tweet-' + tweet.id + ' '+(even ? "even" : "odd")+'">';
 
             if (this.settings.showAuthor) {
@@ -299,6 +300,8 @@
             }
 
             html += '</p></div>';
+
+            this.tweetCount++;
 
             return html;
           },
@@ -323,7 +326,7 @@
                     if (Date.parse(tweet.created_at) > twitter.lastTimeStamp) {
 
                       // Insert the HTML
-                      $(twitter.container).prepend(twitter.renderTweet(tweet,i));
+                      $(twitter.container).prepend(twitter.renderTweet(tweet));
 
                       // Make a note of the timestamp on the first span
                       // so we can update it later.
