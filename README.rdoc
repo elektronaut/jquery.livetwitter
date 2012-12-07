@@ -1,3 +1,13 @@
+= Important notice
+
+<b>Sadly, Twitter has decided we can't have nice things. The v1.0 API is being retired,
+and this plugin will cease to function March 2013.</b>
+
+{ryangiglio}[https://github.com/ryangiglio] is working on
+{jQuery Tweet Machine}[https://github.com/ryangiglio/jquery-tweetMachine],
+a spiritual successor.
+
+
 = jQuery LiveTwitter
 
 LiveTwitter is a lightweight, live updating Twitter plugin for jQuery.
