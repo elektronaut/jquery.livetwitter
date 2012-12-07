@@ -88,6 +88,7 @@
           interval:      false,
           container:     this,
           lastTimeStamp: 0,
+          tweetCount: 0,
           callback:      callback,
 
           // Convert the time stamp to a more human readable format
@@ -277,7 +278,8 @@
 
           // Renders a tweet to HTML
           renderTweet: function (tweet) {
-            var html = '<div class="tweet tweet-' + tweet.id + '">';
+            var even = (this.tweetCount%2 == 0 ? true : false);
+            var html = '<div class="tweet tweet-' + tweet.id + ' '+(even ? "even" : "odd")+'">';
 
             if (this.settings.showAuthor) {
               html += '<img width="' + this.settings.imageSize + '" height="' + this.settings.imageSize + '" src="' + tweet.profile_image_url + '" />';
@@ -299,6 +301,8 @@
 
             html += '</p></div>';
 
+            this.tweetCount++;
+
             return html;
           },
 
@@ -313,7 +317,7 @@
                 // The search and regular APIs differ somewhat
                 var results = (twitter.settings.mode === 'search') ? json.results : json;
 
-                $(results).reverse().each(function () {
+                $(results).reverse().each(function (i) {
                   // Check if tweets should be filtered
                   if (!twitter.settings.filter || twitter.settings.filter(this)) {
                     var tweet = twitter.parseTweet(this);
