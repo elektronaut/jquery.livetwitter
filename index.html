@@ -1,104 +1,86 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>elektronaut/jquery.livetwitter @ GitHub</title>
-	<link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-	<script src="cdn/jquery.livetwitter-1.7.0.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$('#example').liveTwitter('bacon', {limit: 5, imageSize: 32}, function(){
-				$('#example .loading').remove();
-			});
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>elektronaut/jquery.livetwitter @ GitHub</title>
+  <link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  <script src="cdn/jquery.livetwitter-1.7.0.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      $('#example').liveTwitter('"twitter api" :(', {limit: 5, imageSize: 32}, function(){
+        $('#example .loading').remove();
+      });
 
-			$('#searchLinks a').each(function(){
-				var query = $(this).text();
-				$(this).click(function(){
-					// Update the search
-					$('#example').liveTwitter(query).each(function(){
-						this.twitter.clear();
-					});
-					// Update the header
-					$('#searchTerm').text(query);
-					return false;
-				});
-			});
-		});
-	</script>
+      $('#searchLinks a').each(function(){
+        var query = $(this).text();
+        $(this).click(function(){
+          // Update the search
+          $('#example').liveTwitter(query).each(function(){
+            this.twitter.clear();
+          });
+          // Update the header
+          $('#searchTerm').text(query);
+          return false;
+        });
+      });
+    });
+  </script>
 </head>
 
 <body>
-	<a href="http://github.com/elektronaut/jquery.livetwitter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-  
-	<div id="container">
+  <a href="http://github.com/elektronaut/jquery.livetwitter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-    <h1><a href="http://github.com/elektronaut/jquery.livetwitter">jQuery LiveTwitter</a></h1>
+  <div id="container">
 
-    <div class="description">
-		<p>
-			LiveTwitter is a lightweight, realtime updating Twitter plugin for <a href="http://jquery.com/">jQuery</a>. 
-		</p>
-		<p>
-			You can use it to show a stream of tweets based on search queries, tweets 
-			from a specific user or a list. You can also filter the tweets by geographic location, 
-			language etc.
-		</p>
-		<p>
-			<a href="http://status.net/">StatusNet</a> and <a href="http://identi.ca/">Identi.ca</a>
-			are also supported, thanks to their similar API. 
-		</p>
-    </div>
+  <h1><a href="http://github.com/elektronaut/jquery.livetwitter">jQuery LiveTwitter</a></h1>
+
+  <div class="description">
+    <p>
+      This plugin is no more. Dead. Deceased. It has ceased to be. Expired and gone to meet it's maker.
+      Bereft of life, resting in peace. Kicked the bucket, shuffled off it's mortal coil. This is an ex-plugin.
+    </p>
+    <p>
+      Twitter have decided to retire their v1.0 API, so this plugin will stop working March 2013.
+    </p>
+    <p>
+      <a href="http://status.net/">StatusNet</a> and <a href="http://identi.ca/">Identi.ca</a>
+      are supported however, thanks to their similar API.
+    </p>
+  </div>
 
 
-	<h2>Here's what people are saying about <span id="searchTerm">bacon</span>:</h2>
-	<div id="example" class="tweets">
-		<div class="loading">Loading tweets...</div>
-	</div>
-	<p id="searchLinks">Try changing it to <a href="#">bacon</a>, <a href="#">pasta</a> or <a href="#">celery</a>.</p>
-	
-	<h2>Sweet, how do I get started?</h2>
-	<p>
-		You can download the most recent version either as a 
-		<a href="https://github.com/elektronaut/jquery.livetwitter/zipball/master">zip file</a>
-		or a 
-		<a href="https://github.com/elektronaut/jquery.livetwitter/tarball/master">tarball</a>.
-		The project is hosted on <a href="https://github.com/elektronaut/jquery.livetwitter">GitHub</a>, where you also can find
-		previous versions.
-	</p>
-	<p>
-		The documentation is available on the <a href="https://github.com/elektronaut/jquery.livetwitter">GitHub project page</a>,
-		and the file you hopefully just downloaded contains a basic example. 
-	</p>
-	<p>
-		I've also set up a wiki page for <a href="https://github.com/elektronaut/jquery.livetwitter/wiki/FAQ">Frequently Asked Questions</a>.
-	</p>
-	
-	<h2>License</h2>
-	<p>Copyright (c) 2009 Inge Jørgensen</p>
+  <h2>Here's what people are saying about <span id="searchTerm">the Twitter API</span>:</h2>
+  <div id="example" class="tweets">
+    <div class="loading">Loading tweets...</div>
+  </div>
+  <p id="searchLinks">Try changing it to <a href="#">bacon</a>, <a href="#">pasta</a> or <a href="#">celery</a>.</p>
 
-	<p>Permission is hereby granted, free of charge, to any person
-	obtaining a copy of this software and associated documentation
-	files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use,
-	copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following
-	conditions:</p>
+  <h2>License</h2>
+  <p>Copyright (c) 2009 Inge Jørgensen</p>
 
-	<p>The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.</p>
+  <p>Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation
+  files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following
+  conditions:</p>
 
-	<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.</p>
+  <p>The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.</p>
+
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.</p>
 
 
   </div>
