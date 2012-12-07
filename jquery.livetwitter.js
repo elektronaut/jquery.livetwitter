@@ -269,7 +269,7 @@
                 return '<a href="http://' + settings.service + '/' + u.replace(/^@/, '') + '" rel="external">' + u + '</a>';
               });
               text = text.replace(/#[A-Za-z0-9_\-]+/g, function (u) {
-                return '<a href="http://' + settings.service + '/search/notice?q?' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
+                return '<a href="http://' + settings.service + '/search/notice?q=' + u.replace(/^#/, '%23') + '" rel="external">' + u + '</a>';
               });
             }
 
