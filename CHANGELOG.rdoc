@@ -1,5 +1,10 @@
 = Changelog
 
+=== 1.7.5
+
+* Fix for Status.net (thanks, unki!)
+* even/odd class names on tweets (thanks, steeeve!)
+
 === 1.7.4
 
 * Filters can now modify tweets (thanks, timarney!)
